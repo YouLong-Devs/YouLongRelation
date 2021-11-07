@@ -1,0 +1,86 @@
+friend-gui-title: "&6{0} 好友列表: [页数.%p]"
+next-page: "&8&l下一页"
+previous-page: "&8&l上一页"
+friend-icon-name: "&a好友 &b{0}"
+friend-icon-lore:
+  - '&a添加时间:'
+
+
+unknown-error: "&c发生未知错误,请联系管理员"
+intimacy-set: "玩家{0} 与 玩家{1}亲密度已设置为{2}"
+
+player-not-online: "&c玩家{0}不在线"
+friend-upgrade-get-exp: " 获得了{0}经验 ,剩余传功时间 {1} "
+status-disturbed: " 因玩家 {0} 的{1} 导致状态 {2} 结束"
+friend-no-time-upgrade: "玩家 {0} 今天的传功时间已经用完了"
+friend-no-each: "你和玩家 {0} 不是好友"
+friend-upgrade-receiver: "好友{0}想要和你传功是否同意 ,请站在好友的附近同意"
+friend-upgrade-sender: "向好友{0}发送了传功邀请"
+friend-apply-success: "&a向玩家{0}发送申请成功"
+friend-apply-fail: "&c向玩家{0}发送申请失败"
+friend-apply-receiver: "&a玩家{0}发送好友申请"
+friend-already-apply: "你已经向玩家{0}发送过好友申请"
+friend-already: "&6玩家{0}已经是你的好友了"
+friend-accept: "&6你与{0}成为好友了"
+friend-deny-apply-receiver: "玩家{0}拒绝了你的好友申请"
+friend-deny-apply-sender: "你拒绝了{0}的好友申请"
+friend-remove: "已经将好友{0}删除"
+friend-upgrade-death: "功力太大，经脉尽断而亡"
+
+
+
+lover-upgrade-get-exp: " 获得了{0}经验 ,剩余双修时间 {1} "
+lover-disturbed: "因双修被打断导致今日时间归零"
+lover-no-time-upgrade: "玩家 {0} 今天的双修时间已经用完了"
+lover-upgrade-receiver: "道侣{0}想要和你双修是否同意 ,请站在道侣的附近同意"
+lover-upgrade-sender: "向道侣{0}发送了双修邀请"
+lover-already-marry: "玩家 {0} 已经有道侣了"
+lover-already-apply-sender: "你已经向玩家{0}发送过道侣申请"
+lover-apply-success: "&a向玩家{0}发送道侣申请成功"
+lover-apply-receiver: "收到了玩家{0}的道侣申请"
+lover-accept: "&6你与{0}成为道侣了"
+lover-deny-apply-receiver: "玩家{0}拒绝了你的道侣申请"
+lover-deny-apply-sender: "你拒绝了{0}的道侣申请"
+lover-not-exist: "你没有道侣"
+lover-divorce-confirm: "你确定要和{0}脱离道侣关系吗？"
+lover-divorce: "你和{0}已经脱离道侣关系了"
+
+master-already-exist: "&c玩家{0}已经有师傅了"
+master-already-maxcount: "&c玩家 {0} 已达到最大弟子数"
+master-already-apply-sender: "你已经向玩家{0}发送过拜师申请"
+master-apply-success: "&a向玩家{0}发送拜师申请成功"
+master-apply-receiver: "收到了玩家{0}的拜师申请"
+master-accept: "&6你与{0}成为师徒了"
+master-deny-apply-receiver: "玩家{0}拒绝了你的拜师申请"
+master-deny-apply-sender: "你拒绝了{0}的拜师申请"
+master-not-exist: "你没有师傅"
+master-leave-confirm: "你确定要和{0}脱离师徒关系吗？"
+master-leave: "你和{0}已经脱离师徒关系了"
+master-disciple-join: "徒弟{0}已经加入指点列表，请在徒弟附近开始"
+master-upgrade-apply: "徒弟{0}发送了指点申请"
+master-no-time-upgrade: "玩家{0}的指点时间已经用完了"
+master-ready-is-empty: "指点列表为空 无法开始指点"
+master-ready-is-full: "指点列表已满，无法加入"
+
+master-disciple-level-not-allow: "你们的等级不满足要求"
+
+disciple-already-apply-sender: "你已经向玩家{0}发送过收徒申请"
+disciple-apply-success: "&a向玩家{0}发送收徒申请成功"
+disciple-apply-receiver: "收到了玩家{0}的收徒申请"
+disciple-deny-apply-receiver: "玩家{0}拒绝了你的收徒申请"
+disciple-deny-apply-sender: "你拒绝了{0}的收徒申请"
+disciple-not-exist: "你没有徒弟"
+
+disciple-upgrade-apply: "你向师傅{0}发送了指点申请"
+
+disciple-master-join: "你已经加入师傅{0}的指点列表，请在师傅附近等待师傅开始"
+item-receiver: "你收到了来自{0}的物品{1} x {2}"
+
+item-sender: "你向玩家{0}发送了物品 {1} x {2}"
+receiver-not-online: "该玩家离线了,物品重新返回"
+receiver-is-self: "你不能发送物品给自己"
+
+
+
+
+

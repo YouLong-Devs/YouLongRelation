@@ -1,0 +1,14 @@
+database:
+  host: localhost
+  port: 3306
+  user: root
+  password: root
+  database: minecraft
+  table: you_long_relation
+
+lover:
+  homosexual: false
+  #需求亲密度
+  intimacy: 80
+disciple:
+  max-count: 3
