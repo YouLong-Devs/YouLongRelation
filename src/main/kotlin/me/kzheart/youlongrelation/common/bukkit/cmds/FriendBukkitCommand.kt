@@ -5,6 +5,7 @@ import me.kzheart.youlongrelation.api.YouLongRelationApi
 import me.kzheart.youlongrelation.api.YouLongRelationBukkitApi
 import me.kzheart.youlongrelation.common.bukkit.function.FriendEachUpgrade
 import me.kzheart.youlongrelation.common.bukkit.gui.FriendGui
+import me.kzheart.youlongrelation.common.bukkit.gui.SendItemGui
 import me.kzheart.youlongrelation.common.util.Players
 import org.apache.commons.lang3.time.DateUtils
 import org.bukkit.Bukkit
@@ -54,6 +55,16 @@ object FriendBukkitCommand {
                         return@execute sender.sendLang("player-not-online", argument)
                     YouLongRelationBukkitApi.sendGift(sender, argument)
                     //sendGift(sender, argument, BukkitEquipment.getItems(sender)[BukkitEquipment.HAND])
+                }
+            }
+        }
+        literal("gui") {
+            dynamic {
+                suggestion<Player> { sender, context ->
+                    Players.getPlayers().filter { YouLongRelationBukkitApi.isFriend(sender, it) }
+                }
+                execute<Player> { sender, context, argument ->
+                    SendItemGui.open(sender, argument)
                 }
             }
         }

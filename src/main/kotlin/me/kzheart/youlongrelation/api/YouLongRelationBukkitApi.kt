@@ -48,6 +48,11 @@ object YouLongRelationBukkitApi {
     }
 
     @JvmStatic
+    fun isFriend(player: OfflinePlayer, friendName: String): Boolean {
+        return YouLongRelationApi.isFriend(player.name, friendName)
+    }
+
+    @JvmStatic
     fun isLover(player: OfflinePlayer, target: OfflinePlayer): Boolean {
         return YouLongRelationApi.isLover(player.name, target.name)
     }
@@ -132,20 +137,21 @@ object YouLongRelationBukkitApi {
         if (sender.name == receiver) {
             return
         }
-        if (!Players.isPlayerOnline(receiver))
+        if (!Players.isPlayerOnline(receiver)) {
             return
+        }
         submit(async = true) {
             itemStacks.forEach {
                 if (it == null || it.isAir())
                     return@forEach
-                val event = ItemSendEvent(sender, receiver, it)
+                val event = ItemSendEvent(sender, receiver, it.clone())
                 //判断是否在同一个服务器
                 if (Bukkit.getPlayer(receiver) != null) {
                     Bukkit.getPlayer(receiver).run {
                         if (event.call()) {
                             giveItem(it.clone())
                             it.amount = 0
-                            ItemReceiverEvent(sender.name, this, it.clone())
+                            ItemReceiverEvent(sender.name, this, it.clone()).call()
                         }
                     }
                 } else {

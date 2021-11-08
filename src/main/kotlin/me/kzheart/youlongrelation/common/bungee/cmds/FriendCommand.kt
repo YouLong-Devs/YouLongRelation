@@ -43,7 +43,7 @@ object FriendCommand {
                 if (friends.containsKey(argument))
                     return@execute sender.sendLang("friend-already", argument)
                 //判断是否已经申请过
-                if (applyList[argument]!!.contains(sender.name))
+                if (applyList[argument]?.contains(sender.name) == true)
                     return@execute sender.sendLang("friend-already-apply", argument)
                 //如果添加成功 两边都发信息
                 if (applyList[argument]?.add(sender.name) == true) {

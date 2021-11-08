@@ -31,7 +31,8 @@ object FriendGui {
             }
             onGenerate(true) { player, element, index, slot ->
                 buildItem(XMaterial.PLAYER_HEAD) {
-                    skullOwner = console().asLangText("friend-icon-name", element.friendName)
+                    name = console().asLangText("friend-icon-name", element.friendName)
+                    skullOwner = element.friendName
                 }.modifyLore {
                     console().asLangTextList(
                         "friend-icon-lore", SimpleDateFormat("yyyy-MM-dd HH:mm").format(element.date),
@@ -55,6 +56,5 @@ object FriendGui {
                 }
             }
         })
-
     }
 }
