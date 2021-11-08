@@ -10,7 +10,9 @@ import taboolib.common.platform.command.CommandBody
 import taboolib.common.platform.command.CommandHeader
 import taboolib.common.platform.command.mainCommand
 import taboolib.common.platform.command.subCommand
+import taboolib.common.platform.function.getProxyPlayer
 import taboolib.expansion.createHelper
+import taboolib.module.lang.sendLang
 import taboolib.platform.util.sendLang
 
 /**
@@ -96,7 +98,21 @@ object LoverBukkitCommand {
                     LoverEachUpgrade.start(sender, lover)
                 }
             }
-
+        }
+        literal("deny") {
+            dynamic {
+                suggestion<Player> { sender, context ->
+                    if (ApplyListManager.getLoverUpgradeApply(sender) == null)
+                        return@suggestion emptyList<String>()
+                    else
+                        return@suggestion listOf(ApplyListManager.getLoverUpgradeApply(sender)!!)
+                }
+                execute<Player> { sender, _, argument ->
+                    ApplyListManager.removeLoverUpgradeApply(sender)
+                    getProxyPlayer(argument)?.sendLang("lover-upgrade-deny-receiver", sender.name)
+                    sender.sendLang("lover-upgrade-deny-sender", argument)
+                }
+            }
         }
     }
 }

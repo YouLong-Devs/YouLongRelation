@@ -158,7 +158,7 @@ object StatusMap {
             PlayerDisturbedEvent(
                 e.player.name,
                 getPlayerStatusTarget(e.player),
-                DisturbedCause.QUIT,
+                DisturbedCause.TELEPORT,
                 getPlayerStatus(e.player)
             ).call()
             removePlayerFromStatus(e.player)
@@ -171,7 +171,7 @@ object StatusMap {
             PlayerDisturbedEvent(
                 e.player.name,
                 getPlayerStatusTarget(e.player),
-                DisturbedCause.QUIT,
+                DisturbedCause.COMMAND,
                 getPlayerStatus(e.player)
             ).call()
             removePlayerFromStatus(e.player)
@@ -184,7 +184,7 @@ object StatusMap {
             PlayerDisturbedEvent(
                 e.player.name,
                 getPlayerStatusTarget(e.player),
-                DisturbedCause.QUIT,
+                DisturbedCause.CHAT,
                 getPlayerStatus(e.player)
             ).call()
             removePlayerFromStatus(e.player)
@@ -199,7 +199,7 @@ object StatusMap {
                 PlayerDisturbedEvent(
                     player.name,
                     getPlayerStatusTarget(player),
-                    DisturbedCause.QUIT,
+                    DisturbedCause.DAMAGE,
                     getPlayerStatus(player)
                 ).call()
                 removePlayerFromStatus(player)
@@ -214,7 +214,7 @@ object StatusMap {
             PlayerDisturbedEvent(
                 e.player.name,
                 getPlayerStatusTarget(e.player),
-                DisturbedCause.QUIT,
+                DisturbedCause.MOVE,
                 getPlayerStatus(e.player)
             ).call()
             removePlayerFromStatus(e.player)
@@ -227,7 +227,7 @@ object StatusMap {
             PlayerDisturbedEvent(
                 e.entity.name,
                 getPlayerStatusTarget(e.entity),
-                DisturbedCause.QUIT,
+                DisturbedCause.DEATH,
                 getPlayerStatus(e.entity)
             ).call()
             removePlayerFromStatus(e.entity)
@@ -242,7 +242,7 @@ object StatusMap {
                 PlayerDisturbedEvent(
                     e.player.name,
                     getPlayerStatusTarget(e.player),
-                    DisturbedCause.QUIT,
+                    DisturbedCause.USE_ITEM,
                     getPlayerStatus(e.player)
                 ).call()
                 removePlayerFromStatus(e.player)

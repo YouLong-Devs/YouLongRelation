@@ -10,7 +10,9 @@ import taboolib.common.platform.command.CommandBody
 import taboolib.common.platform.command.CommandHeader
 import taboolib.common.platform.command.mainCommand
 import taboolib.common.platform.command.subCommand
+import taboolib.common.platform.function.getProxyPlayer
 import taboolib.expansion.createHelper
+import taboolib.module.lang.sendLang
 import taboolib.platform.util.sendLang
 
 /**
@@ -36,8 +38,8 @@ object DiscipleBukkitCommand {
                 execute<Player> { sender, _, argument ->
                     val master =
                         Bukkit.getPlayer(argument) ?: return@execute sender.sendLang("player-not-online", argument)
-                    val masterAlllow = YouLongRelationBukkitApi.getMasterUpgradeRemainTime(master) > 0
-                    if (!masterAlllow) {
+                    val masterAllow = YouLongRelationBukkitApi.getMasterUpgradeRemainTime(master) > 0
+                    if (!masterAllow) {
                         sender.sendLang("master-no-time-upgrade", master.name)
                         return@execute
                     }
@@ -71,11 +73,24 @@ object DiscipleBukkitCommand {
                         return@execute sender.sendLang("master-ready-is-full")
 
                     ApplyListManager.addDiscipleToReady(master, sender)
-                    sender.sendLang("disciple-master-join", master.name)
-                    master.sendLang("master-disciple-join", sender.name)
+                    sender.sendLang("disciple-join-upgrade", master.name)
+                    master.sendLang("master-join-upgrade", sender.name)
                 }
             }
+        }
+        literal("deny") {
+            dynamic {
+                suggestion<Player> { sender, context ->
+                    if (ApplyListManager.getMasterUpgradeApply(sender) == null) return@suggestion emptyList<String>()
+                    else return@suggestion listOf(ApplyListManager.getMasterUpgradeApply(sender)!!)
+                }
+                execute<Player> { sender, _, argument ->
+                    ApplyListManager.removeMasterUpgradeApply(sender)
+                    sender.sendLang("disciple-upgrade-deny-sender", argument)
+                    getProxyPlayer(argument)?.sendLang("disciple-upgrade-deny-receiver", sender.name)
 
+                }
+            }
         }
     }
 }

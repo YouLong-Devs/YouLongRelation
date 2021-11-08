@@ -9,6 +9,7 @@ import org.bukkit.entity.Player
 import taboolib.common.platform.function.submit
 import taboolib.platform.util.sendLang
 import javax.script.ScriptEngineManager
+import kotlin.math.roundToInt
 
 /**
  * @author kzheart
@@ -46,14 +47,14 @@ object MasterDiscipleEachUpgrade {
                         val discipleExpString = discipleexp.replace("{master_exp}", masterCurrentExp.toString())
                         val discipleAddExp = engine.eval(discipleExpString).toString().toDouble()
                         disciplesExp += SkillAPI.getPlayerData(it).mainClass.exp
-                        it.sendLang("lover-upgrade-get-exp", discipleAddExp, masterRemainTime - 1)
+                        it.sendLang("lover-upgrade-get-exp", discipleAddExp.roundToInt(), masterRemainTime - 1)
                         SkillAPI.getPlayerData(it).giveExp(discipleAddExp, ExpSource.SPECIAL)
                     }
 
                     val masterExpString = masterexp.replace("{disciple_exp}", disciplesExp.toString())
                     val masterAddExp = engine.eval(masterExpString).toString().toDouble()
 
-                    player.sendLang("master-upgrade-get-exp", masterAddExp, masterRemainTime - 1)
+                    player.sendLang("master-upgrade-get-exp", masterAddExp.roundToInt(), masterRemainTime - 1)
                     SkillAPI.getPlayerData(player).giveExp(masterAddExp, ExpSource.SPECIAL)
 
                     YouLongRelationBukkitApi.setMasterUpgradeRemainTime(player, masterRemainTime - 1)

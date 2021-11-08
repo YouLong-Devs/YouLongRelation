@@ -9,6 +9,7 @@ import org.bukkit.entity.Player
 import taboolib.common.platform.function.submit
 import taboolib.platform.util.sendLang
 import javax.script.ScriptEngineManager
+import kotlin.math.roundToInt
 
 /**
  * @author kzheart
@@ -57,8 +58,8 @@ object LoverEachUpgrade {
                     YouLongRelationBukkitApi.setLoverUpgradeRemainTime(lover, loverRemainTime - 1)
 
 
-                    player.sendLang("lover-upgrade-get-exp", playerAddExp, playerRemainTime - 1)
-                    lover.sendLang("lover-upgrade-get-exp", loverAddExp, loverRemainTime - 1)
+                    player.sendLang("lover-upgrade-get-exp", playerAddExp.roundToInt(), playerRemainTime - 1)
+                    lover.sendLang("lover-upgrade-get-exp", loverAddExp.roundToInt(), loverRemainTime - 1)
 
                     SkillAPI.getPlayerData(player).giveExp(playerAddExp, ExpSource.SPECIAL)
                     SkillAPI.getPlayerData(lover).giveExp(loverAddExp, ExpSource.SPECIAL)

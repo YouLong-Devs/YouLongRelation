@@ -13,8 +13,10 @@ import org.bukkit.inventory.ItemStack
 import taboolib.common.platform.Platform
 import taboolib.common.platform.PlatformSide
 import taboolib.common.platform.command.*
+import taboolib.common.platform.function.getProxyPlayer
 import taboolib.common.platform.function.submit
 import taboolib.expansion.createHelper
+import taboolib.module.lang.sendLang
 import taboolib.module.nms.getName
 import taboolib.platform.util.*
 import taboolib.type.BukkitEquipment
@@ -137,7 +139,18 @@ object FriendBukkitCommand {
                     FriendEachUpgrade.start(sender, friend)
                 }
             }
-
+        }
+        literal("deny") {
+            dynamic {
+                suggestion<Player> { sender, context ->
+                    ApplyListManager.getFriendUpgradeList(sender)
+                }
+                execute<Player> { sender, _, argument ->
+                    ApplyListManager.removeFriendUpgradeApply(sender, Bukkit.getOfflinePlayer(argument))
+                    getProxyPlayer(argument)?.sendLang("friend-upgrade-deny-receiver", sender.name)
+                    sender.sendLang("friend-upgrade-deny-sender", argument)
+                }
+            }
         }
     }
 }

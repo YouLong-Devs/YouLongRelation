@@ -12,7 +12,9 @@ import taboolib.common.platform.command.CommandBody
 import taboolib.common.platform.command.CommandHeader
 import taboolib.common.platform.command.mainCommand
 import taboolib.common.platform.command.subCommand
+import taboolib.common.platform.function.getProxyPlayer
 import taboolib.expansion.createHelper
+import taboolib.module.lang.sendLang
 import taboolib.platform.util.sendLang
 
 /**
@@ -81,9 +83,28 @@ object MasterBukkitCommand {
                     if (ApplyListManager.getMasterReadyList(sender).size >= BukkitMasterDiscipleConfManager.count)
                         return@execute sender.sendLang("master-ready-is-full")
                     ApplyListManager.addDiscipleToReady(sender, disciple)
+                    disciple.sendLang("disciple-join-upgrade", sender.name)
+                    sender.sendLang("master-join-upgrade", disciple.name)
                 }
             }
         }
+
+
+
+        literal("deny") {
+            dynamic {
+                suggestion<Player> { sender, context ->
+                    ApplyListManager.getDiscipleUpgradeApply(sender)
+                }
+                execute<Player> { sender, _, argument ->
+                    ApplyListManager.removeDiscipleUpgradeApply(sender, Bukkit.getOfflinePlayer(argument))
+                    getProxyPlayer(argument)?.sendLang("master-upgrade-deny-receiver")
+                    sender.sendLang("master-upgrade-deny-sender", argument)
+                }
+            }
+        }
+
+
         literal("start") {
             execute<Player> { sender, context, argument ->
                 if (YouLongRelationBukkitApi.getDisciples(sender).isEmpty())
@@ -97,6 +118,13 @@ object MasterBukkitCommand {
                             YouLongRelationBukkitApi.isMentoring(sender, it)
                         }.filter { readyList.contains(it.name) }.toList()
 
+            }
+        }
+
+        literal("clear") {
+            execute<Player> { sender, context, argument ->
+                ApplyListManager.clearMasterUpgradeApplyList(sender)
+                sender.sendLang("master-ready-clear")
             }
         }
     }

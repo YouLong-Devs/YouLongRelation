@@ -20,8 +20,8 @@ import taboolib.platform.util.sendLang
 @PlatformSide([Platform.BUKKIT])
 object BukkitListener {
     @SubscribeEvent
-    fun onPlayerUpLevel(e: PlayerLevelChangeEvent) {
-        YouLongRelationBukkitApi.updatePlayerLevel(e.player)
+    fun onPlayerUpLevel(e: PlayerLevelUpEvent) {
+        YouLongRelationBukkitApi.updatePlayerLevel(e.playerData.player)
     }
 
     @SubscribeEvent

@@ -1,5 +1,6 @@
 package me.kzheart.youlongrelation.common.bukkit.cmds
 
+import org.bukkit.OfflinePlayer
 import org.bukkit.entity.Player
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerKickEvent
@@ -16,7 +17,21 @@ object ApplyListManager {
     private val discipleUpgradeApplyList = hashMapOf<String, MutableList<String>>()
     private val masterUpgradeApplyList = hashMapOf<String, String>()
     private val masterUpgradeReadyList = hashMapOf<String, MutableList<String>>()
+    fun getFriendUpgradeList(player: Player): MutableList<String> {
+        return friendUpgrade[player.name] ?: return mutableListOf()
+    }
 
+    fun getLoverUpgradeApply(player: Player): String? {
+        return loverUpgradeApplyList[player.name]
+    }
+
+    fun getDiscipleUpgradeApply(player: Player): MutableList<String> {
+        return discipleUpgradeApplyList[player.name] ?: return mutableListOf()
+    }
+
+    fun getMasterUpgradeApply(player: Player): String? {
+        return masterUpgradeApplyList[player.name]
+    }
 
     fun addFriendUpgradeApply(player: Player, friend: Player) {
         friendUpgrade[player.name]?.add(friend.name)
@@ -46,7 +61,7 @@ object ApplyListManager {
     }
 
 
-    fun removeFriendUpgradeApply(player: Player, friend: Player) {
+    fun removeFriendUpgradeApply(player: Player, friend: OfflinePlayer) {
         friendUpgrade[player.name]?.remove(friend.name)
     }
 
@@ -56,7 +71,7 @@ object ApplyListManager {
     }
 
 
-    fun removeDiscipleUpgradeApply(master: Player, disciple: Player) {
+    fun removeDiscipleUpgradeApply(master: Player, disciple: OfflinePlayer) {
         discipleUpgradeApplyList[master.name]?.remove(disciple.name)
     }
 
@@ -84,6 +99,7 @@ object ApplyListManager {
     fun getMasterReadyList(master: Player): MutableList<String> {
         return masterUpgradeReadyList[master.name] ?: mutableListOf()
     }
+
 
     @SubscribeEvent
     fun onPlayerJoin(e: PlayerJoinEvent) {
