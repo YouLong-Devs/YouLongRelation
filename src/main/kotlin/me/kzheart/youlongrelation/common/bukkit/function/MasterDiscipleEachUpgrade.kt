@@ -32,11 +32,12 @@ object MasterDiscipleEachUpgrade {
 
 
         submit(async = true, period = 20) {
-            val masterRemainTime = YouLongRelationBukkitApi.getLoverUpgradeRemainTime(player)
+            val masterRemainTime = YouLongRelationBukkitApi.getMasterUpgradeRemainTime(player)
             if (StatusMap.getPlayerStatus(player) == Status.MASTER_UPGRADING) {
                 disciples.forEach {
                     if (StatusMap.getPlayerStatus(it) != Status.DISCIPLE_UPGRADING) {
                         cancel()
+                        return@submit
                     }
                 }
                 if (masterRemainTime > 0) {
@@ -47,14 +48,14 @@ object MasterDiscipleEachUpgrade {
                         val discipleExpString = discipleexp.replace("{master_exp}", masterCurrentExp.toString())
                         val discipleAddExp = engine.eval(discipleExpString).toString().toDouble()
                         disciplesExp += SkillAPI.getPlayerData(it).mainClass.exp
-                        it.sendLang("lover-upgrade-get-exp", discipleAddExp.roundToInt(), masterRemainTime - 1)
+                        it.sendLang("disciple-upgrade-get-exp", discipleAddExp.roundToInt(), masterRemainTime - 1)
                         SkillAPI.getPlayerData(it).giveExp(discipleAddExp, ExpSource.SPECIAL)
                     }
 
                     val masterExpString = masterexp.replace("{disciple_exp}", disciplesExp.toString())
                     val masterAddExp = engine.eval(masterExpString).toString().toDouble()
 
-                    player.sendLang("master-upgrade-get-exp", masterAddExp.roundToInt(), masterRemainTime - 1)
+                    player.sendLang("disciple-upgrade-get-exp", masterAddExp.roundToInt(), masterRemainTime - 1)
                     SkillAPI.getPlayerData(player).giveExp(masterAddExp, ExpSource.SPECIAL)
 
                     YouLongRelationBukkitApi.setMasterUpgradeRemainTime(player, masterRemainTime - 1)
@@ -71,8 +72,8 @@ object MasterDiscipleEachUpgrade {
                         ).call()
                     }
                     StatusMap.removePlayerFromStatus(player)
+                    cancel()
                 }
-                cancel()
             } else cancel()
         }
     }

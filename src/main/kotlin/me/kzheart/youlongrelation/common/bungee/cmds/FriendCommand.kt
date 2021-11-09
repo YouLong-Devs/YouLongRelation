@@ -24,11 +24,26 @@ import taboolib.module.lang.sendLang
 @PlatformSide([Platform.BUNGEE])
 @CommandHeader("friend", permission = "youlongrelation.friend.use")
 object FriendCommand {
-    private val applyList = hashMapOf<String, MutableList<String>>()
 
     @CommandBody(permission = "youlongrelation.friend.use")
     val main = mainCommand {
         createHelper()
+    }
+
+    @CommandBody(permission = "youlongrelation.friend.use")
+    val intimacy = subCommand {
+        dynamic {
+            suggestion<ProxyPlayer> { sender, context ->
+                YouLongRelationBungeeApi.getFriends(sender.cast<ProxiedPlayer>()).keys.toList()
+            }
+            execute<ProxyPlayer> { sender, _, argument ->
+                sender.sendLang(
+                    "friend-intimacy",
+                    argument,
+                    YouLongRelationBungeeApi.getIntimacy(sender.name, argument)
+                )
+            }
+        }
     }
 
     @CommandBody(permission = "youlongrelation.friend.use.common")
@@ -43,14 +58,12 @@ object FriendCommand {
                 if (friends.containsKey(argument))
                     return@execute sender.sendLang("friend-already", argument)
                 //判断是否已经申请过
-                if (applyList[argument]?.contains(sender.name) == true)
+                if (ApplyManager.hasFriendApply(argument, sender))
                     return@execute sender.sendLang("friend-already-apply", argument)
                 //如果添加成功 两边都发信息
-                if (applyList[argument]?.add(sender.name) == true) {
-                    getProxyPlayer(argument)?.sendLang("friend-apply-receiver", sender.name)
-                    return@execute sender.sendLang("friend-apply-success", argument)
-                } else
-                    return@execute sender.sendLang("unknown-error")
+                ApplyManager.addFriendApply(argument, sender)
+                getProxyPlayer(argument)?.sendLang("friend-apply-receiver", sender.name)
+                return@execute sender.sendLang("friend-apply-success", argument)
             }
         }
     }
@@ -59,14 +72,13 @@ object FriendCommand {
     val accept = subCommand {
         dynamic {
             suggestion<ProxyPlayer> { sender, _ ->
-                return@suggestion applyList[sender.name]
+                return@suggestion ApplyManager.getFriendApply(sender)
             }
             execute<ProxyPlayer> { sender, _, argument ->
-                applyList[sender.name]?.remove(argument)
+                ApplyManager.removeFriendApply(sender, argument)
                 val friends = YouLongRelationBungeeApi.getFriends(sender.cast<ProxiedPlayer>())
                 //判断是否已经是好友
                 if (friends.containsKey(argument)) {
-                    applyList[sender.name]?.remove(argument)
                     return@execute sender.sendLang("friend-already", argument)
                 }
                 runCatching {
@@ -86,10 +98,10 @@ object FriendCommand {
     val deny = subCommand {
         dynamic {
             suggestion<ProxyPlayer> { sender, _ ->
-                return@suggestion applyList[sender.name]
+                return@suggestion ApplyManager.getFriendApply(sender)
             }
             execute<ProxyPlayer> { sender, _, argument ->
-                applyList[sender.name]?.remove(argument)
+                ApplyManager.removeFriendApply(sender, argument)
                 sender.sendLang("friend-deny-apply-sender", argument)
                 getProxyPlayer(argument)?.sendLang("friend-deny-apply-receiver", sender.name)
             }
@@ -104,9 +116,10 @@ object FriendCommand {
             }
             execute<ProxyPlayer> { sender, _, argument ->
                 runCatching {
-                    YouLongRelationBungeeApi.removeFriend(sender.cast<ProxiedPlayer>(), argument)
+                    YouLongRelationBungeeApi.removeFriend(sender.cast(), argument)
                 }
                     .onSuccess {
+                        YouLongRelationBungeeApi.setPlayerIntimacy(sender.cast(), argument, 0)
                         sender.sendLang("friend-remove", argument)
                         getProxyPlayer(argument)?.sendLang("friend-remove", sender.name)
                     }
@@ -116,17 +129,6 @@ object FriendCommand {
                     }
             }
         }
-    }
-
-    @SubscribeEvent
-    fun playerLogin(e: ServerConnectedEvent) {
-        applyList[e.player.name] = mutableListOf()
-    }
-
-
-    @SubscribeEvent
-    fun playerDisconnect(e: ServerDisconnectEvent) {
-        applyList.remove(e.player.name)
     }
 
 

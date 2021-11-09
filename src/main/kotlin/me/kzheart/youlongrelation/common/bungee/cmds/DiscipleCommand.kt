@@ -24,11 +24,20 @@ import taboolib.module.lang.sendLang
 @PlatformSide([Platform.BUNGEE])
 @CommandHeader("disciple", permission = "youlongrelation.disciple.use")
 object DiscipleCommand {
-    private val applyList = hashMapOf<String, MutableList<String>>()
 
     @CommandBody(permission = "youlongrelation.disciple.use")
     val main = mainCommand {
         createHelper()
+    }
+
+    @CommandBody(permission = "youlongrelation.master.use.apprentice")
+    val check = subCommand {
+        execute<ProxyPlayer> { sender, context, argument ->
+            val disciples = YouLongRelationBungeeApi.getDisciples(sender.cast<ProxiedPlayer>())
+            if (disciples.isEmpty())
+                return@execute sender.sendLang("disciple-not-exist")
+            sender.sendLang("disciple-check", disciples.keys)
+        }
     }
 
     @CommandBody(permission = "youlongrelation.disciple.use.common")
@@ -47,28 +56,25 @@ object DiscipleCommand {
                 if (masterData != null)
                     return@execute sender.sendLang("master-already-exist", argument)
 
-                if (applyList[argument]?.contains(sender.name) == true)
+                if (ApplyManager.hasDiscipleApply(argument, sender))
                     return@execute sender.sendLang("disciple-already-apply-sender", argument)
 
-                runCatching {
-                    if (applyList[sender.name]?.add(argument) == true) {
-                        getProxyPlayer(argument)?.sendLang("disciple-apply-success", sender.name)
-                        return@execute sender.sendLang("disciple-apply-receiver", argument)
-                    } else
-                        return@execute sender.sendLang("unknown-error")
-                }
+                ApplyManager.addDiscipleApply(argument, sender)
+                getProxyPlayer(argument)?.sendLang("disciple-apply-receiver", sender.name)
+                return@execute sender.sendLang("disciple-apply-success", argument)
             }
         }
     }
+
 
     @CommandBody(permission = "youlongrelation.disciple.use.common")
     val accept = subCommand {
         dynamic {
             suggestion<ProxyPlayer> { sender, _ ->
-                return@suggestion applyList[sender.name]
+                return@suggestion ApplyManager.getDiscipleApply(sender)
             }
             execute<ProxyPlayer> { sender, _, argument ->
-                applyList[sender.name]?.remove(argument)
+                ApplyManager.removeDiscipleApply(sender, argument)
                 val disciples = YouLongRelationBungeeApi.getDisciples(sender.cast<ProxiedPlayer>())
                 if (disciples.size >= MasterCommand.maxDiscipleCount)
                     return@execute sender.sendLang("master-already-maxcount", sender.name)
@@ -94,10 +100,10 @@ object DiscipleCommand {
     val deny = subCommand {
         dynamic {
             suggestion<ProxyPlayer> { sender, context ->
-                return@suggestion applyList[sender.name]
+                return@suggestion ApplyManager.getDiscipleApply(sender)
             }
             execute<ProxyPlayer> { sender, context, argument ->
-                applyList[sender.name]?.remove(argument)
+                ApplyManager.removeDiscipleApply(sender, argument)
                 sender.sendLang("disciple-deny-apply-sender", argument)
                 getProxyPlayer(argument)?.sendLang("disciple-deny-apply-receiver", sender.name)
             }
@@ -133,17 +139,5 @@ object DiscipleCommand {
                 }
             }
         }
-    }
-
-
-    @SubscribeEvent
-    fun playerLogin(e: ServerConnectedEvent) {
-        applyList[e.player.name] = mutableListOf()
-    }
-
-
-    @SubscribeEvent
-    fun playerDisconnect(e: ServerDisconnectEvent) {
-        applyList.remove(e.player.name)
     }
 }

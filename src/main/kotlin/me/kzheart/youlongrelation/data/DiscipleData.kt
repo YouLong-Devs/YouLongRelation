@@ -1,6 +1,7 @@
 package me.kzheart.youlongrelation.data
 
 import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import java.util.*
 
 /**
@@ -26,7 +27,7 @@ fun Player.removeDisciple(name: String): Boolean {
 }*/
 
 fun String?.deserializeDisciples(): MutableMap<String, DiscipleData> {
-    return if (this != null) Gson().fromJson<MutableMap<String, DiscipleData>>(this) else mutableMapOf()
+    return if (this != null) GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create().fromJson<MutableMap<String, DiscipleData>>(this) else mutableMapOf()
 }
 
 /*

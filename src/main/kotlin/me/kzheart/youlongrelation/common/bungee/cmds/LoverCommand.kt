@@ -28,7 +28,7 @@ import taboolib.module.lang.sendLang
 @PlatformSide([Platform.BUNGEE])
 @CommandHeader("lover", permission = "youlongrelation.lover.use")
 object LoverCommand {
-    private val applyList = hashMapOf<String, MutableList<String>>()
+
 
     @CommandBody(permission = "youlongrelation.lover.use")
     val main = mainCommand {
@@ -52,14 +52,23 @@ object LoverCommand {
                 if (loverData != null) {
                     return@execute sender.sendLang("lover-already-marry", argument)
                 }
-                if (applyList[argument]!!.contains(sender.name))
+                if (ApplyManager.hasLoverApply(argument, sender))
                     return@execute sender.sendLang("lover-already-apply-sender", argument)
-                if (applyList[argument]?.add(sender.name) == true) {
-                    getProxyPlayer(argument)?.sendLang("lover-apply-receiver", sender.name)
-                    return@execute sender.sendLang("lover-apply-success", argument)
-                } else
-                    return@execute sender.sendLang("unknown-error")
+                ApplyManager.addLoverApply(argument, sender)
+                getProxyPlayer(argument)?.sendLang("lover-apply-receiver", sender.name)
+                return@execute sender.sendLang("lover-apply-success", argument)
             }
+        }
+    }
+
+    @CommandBody(permission = "youlongrelation.lover.use.marry")
+    val check = subCommand {
+        execute<ProxyPlayer> { sender, context, argument ->
+            val loverData = YouLongRelationBungeeApi.getLover(sender.cast<ProxiedPlayer>())
+                ?: return@execute sender.sendLang("lover-not-exist")
+            val proxyPlayer = getProxyPlayer(loverData.name)
+            val onlineStats = if (proxyPlayer != null) "§a在线" else "§8离线"
+            sender.sendLang("lover-check", loverData.name, onlineStats)
         }
     }
 
@@ -67,10 +76,10 @@ object LoverCommand {
     val accept = subCommand {
         dynamic {
             suggestion<ProxyPlayer> { sender, context ->
-                return@suggestion applyList[sender.name]
+                return@suggestion ApplyManager.getLoverApply(sender)
             }
             execute<ProxyPlayer> { sender, context, argument ->
-                applyList[sender.name]?.remove(argument)
+                ApplyManager.removeLoverApply(sender, argument)
                 val loverData = YouLongRelationBungeeApi.getLover(argument)
                 argument.getDataContainerByName()["lover"].deserializeLover()
                 //申请人已经有道侣
@@ -85,7 +94,6 @@ object LoverCommand {
                 runCatching {
                     YouLongRelationBungeeApi.addLover(sender.cast(), argument)
                 }.onSuccess {
-                    applyList[sender.name]?.remove(argument)
                     sender.sendLang("lover-accept", argument)
                     getProxyPlayer(argument)?.sendLang("lover-accept", sender.name)
                 }.onFailure {
@@ -100,10 +108,10 @@ object LoverCommand {
     val deny = subCommand {
         dynamic {
             suggestion<ProxyPlayer> { sender, context ->
-                return@suggestion applyList[sender.name]
+                return@suggestion ApplyManager.getLoverApply(sender)
             }
             execute<ProxyPlayer> { sender, context, argument ->
-                applyList[sender.name]?.remove(argument)
+                ApplyManager.removeLoverApply(sender, argument)
                 sender.sendLang("lover-deny-apply-sender", argument)
                 getProxyPlayer(argument)?.sendLang("lover-deny-apply-receiver", sender.name)
             }
@@ -140,16 +148,6 @@ object LoverCommand {
         }
     }
 
-    @SubscribeEvent
-    fun playerLogin(e: ServerConnectedEvent) {
-        applyList[e.player.name] = mutableListOf()
-    }
-
-
-    @SubscribeEvent
-    fun playerDisconnect(e: ServerDisconnectEvent) {
-        applyList.remove(e.player.name)
-    }
 }
 
 

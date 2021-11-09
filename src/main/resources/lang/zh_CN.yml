@@ -3,7 +3,9 @@ next-page: "&8&l下一页"
 previous-page: "&8&l上一页"
 friend-icon-name: "&a好友 &b{0}"
 friend-icon-lore:
-  - '&a添加时间:'
+  - '&a添加时间: {0}'
+  - '&a在线状态: {1}'
+  - '&8▶ &6点击打开赠送礼物界面'
 
 
 
@@ -13,8 +15,8 @@ unknown-error: "&8&l[ &3&lYouLongRelation &8&l] &c 发生未知错误 &8请联�
 intimacy-set: "&8&l[ &3&lYouLongRelation &8&l] &8 玩家&a {0} &8 与 &a玩家{1} &8亲密度已设置为 &2{2} "
 
 player-not-online: "&8&l[ &3&lYouLongRelation &8&l] &c玩家{0}不在线"
-friend-upgrade-get-exp: "8&l[ &3&lYouLongRelation &8&l] 获得了{0}经验 ,剩余传功时间 {1} "
-status-disturbed: "&8&l[ &3&lYouLongRelation &8&l] 因玩家 {0} 的{1} 导致状态 {2} 结束"
+friend-upgrade-get-exp: "&8&l[ &3&lYouLongRelation &8&l]  &8获得了 &a{0} &8经验 剩余传功时间 &b{1} s "
+status-disturbed: "&8&l[ &3&lYouLongRelation &8&l] &8因玩家 {0} 的{1} 导致状态 {2} 结束"
 friend-no-time-upgrade: "8&l[ &3&lYouLongRelation &8&l] 玩家 {0} 今天的传功时间已经用完了"
 friend-no-each: "&8&l[ &3&lYouLongRelation &8&l] 你和玩家 {0} 不是好友"
 friend-upgrade-receiver:
@@ -56,19 +58,20 @@ friend-apply-receiver:
 friend-already-apply: "&8&l[ &3&lYouLongRelation &8&l] &8你已经向玩家 &a{0} &8发送过好友申请"
 friend-already: "&8&l[ &3&lYouLongRelation &8&l] &8玩家 &a{0} &8已经是你的好友了"
 friend-accept: "&8&l[ &3&lYouLongRelation &8&l] &8你与 &a{0} &8成为好友了"
-friend-deny-apply-receiver: "&8&l[ &3&lYouLongRelation &8&l] 玩家&a {0} &8拒绝了你的好友申请"
+friend-deny-apply-receiver: "&8&l[ &3&lYouLongRelation &8&l] &8玩家&a {0} &8拒绝了你的好友申请"
 friend-deny-apply-sender: "&8&l[ &3&lYouLongRelation &8&l] &8你拒绝了 &a{0} &8的好友申请"
 friend-remove: "&8&l[ &3&lYouLongRelation &8&l] &8 好友 &a{0} &8已删除"
 friend-upgrade-death: "&8&l[ &3&lYouLongRelation &8&l] &8功力太大，经脉尽断而亡"
+friend-intimacy: '&8&l[ &3&lYouLongRelation &8&l] &8你与好友 &a{0} &8的亲密度为 &b{1} '
 
 
 
-lover-upgrade-get-exp: "&8&l[ &3&lYouLongRelation &8&l]  获得了 &a{0} &8经验 剩余双修时间 &b{1}s "
+lover-upgrade-get-exp: "&8&l[ &3&lYouLongRelation &8&l]  &8获得了 &a{0} &8经验 剩余双修时间 &b{1}s "
 lover-disturbed: "&8&l[ &3&lYouLongRelation &8&l] &8因双修被打断导致今日双修时间&c归零"
 lover-no-time-upgrade: "&8&l[ &3&lYouLongRelation &8&l] &8玩家 &a{0} &8今天的双修时间已经用完了"
 lover-upgrade-receiver:
   - '&r'
-  - '&8&l[ &3&lYouLongRelation &8&l] 道侣 &a{0} &8想要和你双修是否同意 &cTips: 请站在道侣的附近同意'
+  - '&8&l[ &3&lYouLongRelation &8&l] &8道侣 &a{0} &8想要和你双修是否同意 &cTips: 请站在道侣的附近同意'
   - '&8▶ &7选择选项:'
   - type: JSON
     text: '[&a&n同意]'
@@ -80,12 +83,11 @@ lover-upgrade-receiver:
     args:
       - hover: '&7Click'
         command: '/loverbukkit upgrade deny {0}'
-lover-upgrade-sender: "&8&l[ &3&lYouLongRelation &8&l] 向道侣 &a{0} &8发送了双修邀请"
+lover-upgrade-sender: "&8&l[ &3&lYouLongRelation &8&l] &8向道侣 &a{0} &8发送了双修邀请"
 lover-upgrade-deny-sender: '&8&l[ &3&lYouLongRelation &8&l] &8你拒绝了道侣的双修申请'
 lover-upgrade-deny-receiver: '&8&l[ &3&lYouLongRelation &8&l] &8你的道侣拒绝了你的双修申请'
-
-
-lover-already-marry: "&8&l[ &3&lYouLongRelation &8&l] 玩家 &a{0} &8已经有道侣了"
+lover-check: '&8&l[ &3&lYouLongRelation &8&l] &8你的道侣是 &a{0} &8当前 {1} '
+lover-already-marry: "&8&l[ &3&lYouLongRelation &8&l] &8玩家 &a{0} &8已经有道侣了"
 lover-already-apply-sender: "&8&l[ &3&lYouLongRelation &8&l] &8你已经向玩家 &a{0} &8发送过道侣申请"
 lover-apply-success: "&8&l[ &3&lYouLongRelation &8&l] &8向玩家 &a{0} &8发送道侣申请成功"
 lover-apply-receiver:
@@ -114,7 +116,7 @@ lover-divorce-confirm:
     args:
       - hover: '&7Click'
         command: '/lover divorceConfirm'
-lover-divorce: "&8&l[ &3&lYouLongRelation &8&l] 你和{0}已经脱离道侣关系了"
+lover-divorce: "&8&l[ &3&lYouLongRelation &8&l] &8你和 &a{0} &8已经脱离道侣关系了"
 
 master-already-exist: "&8&l[ &3&lYouLongRelation &8&l] &8玩家 &a{0} &8已经有师傅了"
 master-already-maxcount: "&8&l[ &3&lYouLongRelation &8&l] &8玩家 &a{0} &8已达到最大弟子数"
@@ -156,7 +158,7 @@ master-upgrade-apply:
     text: '[&a&n同意]'
     args:
       - hover: '&7Click'
-        command: '/masterbukkit upgarde accept {0}'
+        command: '/masterbukkit upgrade accept {0}'
   - type: JSON
     text: '[&c&n拒绝]'
     args:
@@ -166,19 +168,19 @@ master-upgrade-deny-sender: '&8&l[ &3&lYouLongRelation &8&l] &8你拒绝了徒�
 master-upgrade-deny-receiver: '&8&l[ &3&lYouLongRelation &8&l] &8你的师傅拒绝了你的指点申请'
 master-upgrade-receiver:
   - '&r'
-  - '8&l[ &3&lYouLongRelation &8&l] 师傅 {0} 请求指点你 &ctips:请站在师傅附近'
+  - '8&l[ &3&lYouLongRelation &8&l] &8师傅 {0} 请求指点你 &ctips:请站在师傅附近'
   - '&8▶ &7选择选项:'
   - type: JSON
     text: '[&a&n同意]'
     args:
       - hover: '&7Click'
-        command: '/disciplebukkit upgarde accept {0}'
+        command: '/disciplebukkit upgrade accept {0}'
   - type: JSON
     text: '[&c&n拒绝]'
     args:
       - hover: '&7Click'
         command: '/disciplebukkit upgrade deny {0}'
-master-upgrade-sender: '&8&l[ &3&lYouLongRelation &8&l] 你邀请徒弟 {0} 加入指点列表'
+master-upgrade-sender: '&8&l[ &3&lYouLongRelation &8&l] &8你邀请徒弟 {0} 加入指点列表'
 master-no-time-upgrade: "&8&l[ &3&lYouLongRelation &8&l] &8师傅 &a{0} &8的指点时间已经用完了"
 master-ready-clear: '&8&l[ &3&lYouLongRelation &8&l] &8指点列表已经清空'
 master-ready-is-empty: '&8&l[ &3&lYouLongRelation &8&l] &8指点列表为空 无法开始指点'
@@ -191,8 +193,8 @@ master-join-upgrade:
     text: '[&a&n开始]'
     args:
       - hover: '&7Click'
-        command: '/masterbukkit upgarde start'
-
+        command: '/masterbukkit upgrade start'
+master-check: '&8&l[ &3&lYouLongRelation &8&l] &8你的师傅是 &a{0} &8当前 {1} '
 
 
 disciple-already-apply-sender: "&8&l[ &3&lYouLongRelation &8&l] &8你已经向玩家 &a{0} &8发送过收徒申请"
@@ -213,6 +215,9 @@ disciple-apply-receiver:
         command: '/disciple deny {0}'
 
 
+disciple-check: '&8&l[ &3&lYouLongRelation &8&l] &8你的徒弟有 &a{0}'
+
+
 
 
 disciple-deny-apply-receiver: "&8&l[ &3&lYouLongRelation &8&l] &8玩家 &a{0} &8拒绝了你的收徒申请"
@@ -228,6 +233,6 @@ receiver-not-online: "&8&l[ &3&lYouLongRelation &8&l] &8该玩家离线了,物�
 receiver-is-self: "&8&l[ &3&lYouLongRelation &8&l] &8你不能发送物品给自己"
 
 
-
+disciple-upgrade-get-exp: ' &8&l[ &3&lYouLongRelation &8&l]  &8获得了 &a{0} &8经验 剩余指点时间 &b{1}s'
 
 

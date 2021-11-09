@@ -38,7 +38,7 @@ object ApplyListManager {
     }
 
     fun addDiscipleToReady(master: Player, disciple: Player) {
-        discipleUpgradeApplyList[master.name]?.add(disciple.name)
+        masterUpgradeReadyList[master.name]?.add(disciple.name)
     }
 
     fun clearMasterUpgradeApplyList(master: Player) {

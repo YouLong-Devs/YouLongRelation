@@ -1,5 +1,6 @@
 package me.kzheart.youlongrelation
 
+import me.kzheart.youlongrelation.api.YouLongRelationBukkitApi
 import me.kzheart.youlongrelation.common.bungee.Bungee
 import me.kzheart.youlongrelation.data.deserializeFriends
 import me.kzheart.youlongrelation.database.getDataContainerByName
@@ -53,6 +54,9 @@ object YouLongRelation : Plugin() {
                 }
             }
         }
+    }
+
+    override fun onDisable() {
     }
 
     override fun onActive() {

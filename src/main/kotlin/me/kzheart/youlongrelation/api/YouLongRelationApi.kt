@@ -74,6 +74,7 @@ object YouLongRelationApi {
 
         playerName.getDataContainerByName()["lover"] = LoverData(loverName, date).serializeString()
         loverName.getDataContainerByName()["lover"] = LoverData(playerName, date).serializeString()
+        setIntimacy(playerName, loverName, 0)
         return true
     }
 
@@ -178,7 +179,7 @@ object YouLongRelationApi {
 
     @JvmStatic
     fun isMentoring(playerName: String, targetName: String): Boolean {
-        return getMaster(playerName)?.master == targetName
+        return getMaster(playerName)?.master == targetName || getDisciples(playerName).containsKey(targetName)
     }
 
     @JvmStatic

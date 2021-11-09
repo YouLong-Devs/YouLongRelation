@@ -109,7 +109,7 @@ object YouLongRelationBukkitApi {
 
     @JvmStatic
     fun getMasterUpgradeRemainTime(player: OfflinePlayer): Int {
-        return YouLongRelationApi.getLoverUpgradeRemainTime(player.name)
+        return YouLongRelationApi.getMasterUpgradeRemainTime(player.name)
     }
 
     @JvmStatic

@@ -29,6 +29,11 @@ object YouLongRelationBungeeApi {
         YouLongRelationApi.setIntimacy(proxiedPlayer.name, friend.name, intimacy)
     }
 
+    @JvmStatic
+    fun setPlayerIntimacy(proxiedPlayer: ProxiedPlayer, friendName: String, intimacy: Int) {
+        YouLongRelationApi.setIntimacy(proxiedPlayer.name, friendName, intimacy)
+    }
+
 
     @JvmStatic
     fun addFriend(proxiedPlayer: ProxiedPlayer, friend: ProxiedPlayer): Boolean {
@@ -134,17 +139,18 @@ object YouLongRelationBungeeApi {
 
     @JvmStatic
     fun addDisciple(proxiedPlayer: ProxiedPlayer, discipleName: String): Boolean {
-        return YouLongRelationApi.addMaster(proxiedPlayer.name, discipleName)
+        return YouLongRelationApi.addMaster(discipleName, proxiedPlayer.name)
     }
 
     @JvmStatic
     fun addDisciple(playerName: String, disciple: ProxiedPlayer): Boolean {
-        return YouLongRelationApi.addMaster(playerName, disciple.name)
+        return YouLongRelationApi.addMaster(disciple.name, playerName)
     }
+
 
     @JvmStatic
     fun addDisciple(proxiedPlayer: ProxiedPlayer, disciple: ProxiedPlayer): Boolean {
-        return YouLongRelationApi.addMaster(proxiedPlayer.name, disciple.name)
+        return YouLongRelationApi.addMaster(disciple.name, proxiedPlayer.name)
     }
 
     @JvmStatic
@@ -161,7 +167,5 @@ object YouLongRelationBungeeApi {
     fun getPlayerLevel(playerName: String): Int {
         return YouLongRelationApi.getPlayerLevel(playerName)
     }
-
-
 }
 

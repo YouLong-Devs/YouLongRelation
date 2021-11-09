@@ -3,7 +3,7 @@ package me.kzheart.youlongrelation.common.bukkit.cmds
 import me.kzheart.youlongrelation.api.YouLongRelationApi
 import me.kzheart.youlongrelation.api.YouLongRelationBukkitApi
 import me.kzheart.youlongrelation.common.bukkit.conf.BukkitMasterDiscipleConfManager
-import me.kzheart.youlongrelation.common.bukkit.function.LoverEachUpgrade
+import me.kzheart.youlongrelation.common.bukkit.function.MasterDiscipleEachUpgrade
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import taboolib.common.platform.Platform
@@ -71,7 +71,6 @@ object MasterBukkitCommand {
                     val disciple =
                         Bukkit.getPlayer(argument) ?: return@execute sender.sendLang("player-not-online", argument)
                     ApplyListManager.removeDiscipleUpgradeApply(sender, disciple)
-
                     val masterAllow = YouLongRelationBukkitApi.getMasterUpgradeRemainTime(sender) > 0
 
                     if (!masterAllow) {
@@ -117,7 +116,8 @@ object MasterBukkitCommand {
                         .filter {
                             YouLongRelationBukkitApi.isMentoring(sender, it)
                         }.filter { readyList.contains(it.name) }.toList()
-
+                ApplyListManager.clearMasterUpgradeApplyList(sender)
+                MasterDiscipleEachUpgrade.start(sender, disciples)
             }
         }
 

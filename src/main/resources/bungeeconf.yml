@@ -7,7 +7,7 @@ database:
   table: you_long_relation
 
 lover:
-  homosexual: false
+  #homosexual: false
   #需求亲密度
   intimacy: 80
 disciple:

@@ -94,7 +94,7 @@ object StatusMap {
                 discipleList?.forEach {
                     discipleUpgradingMap.remove(it)
                 }
-                discipleList?.remove(player.name)
+                masterUpgradingMap.remove(player.name)
                 Status.MASTER_UPGRADING
             }
             Status.DISCIPLE_UPGRADING -> {

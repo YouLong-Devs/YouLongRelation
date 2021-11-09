@@ -22,13 +22,14 @@ lover:
     exp: '{current_exp} * 0.2'
     time: 3600
 master:
+  count: 3
   upgrade:
     # 师傅获得的经验        徒弟当前经验{disciple_exp}
     masterexp: '{disciple_exp} / 20.2'
     # 徒弟获得的经验         师傅当前经验{master_exp}
     discipleexp: '{master_exp} / 20.1'
     time: 3600
-    count: 3
+
 
 
 

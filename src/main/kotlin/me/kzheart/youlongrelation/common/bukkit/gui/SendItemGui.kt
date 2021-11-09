@@ -42,13 +42,13 @@ object SendItemGui {
     private val guiCache = mutableMapOf<String, MutableMap<String, Inventory>>()
     fun open(player: Player, receiver: String) {
         val inventory = guiCache[player.name]!!.computeIfAbsent(receiver) {
-            buildMenu<Basic>("§a赠送物品 §8To: §b$receiver   &cTips: 请及时将物品拿走 否则物品可能消失") {
+            buildMenu<Basic>("§a赠送物品 §8To: §b$receiver") {
                 rows(1)
-                map("Y")
-                set('Y', XMaterial.BARRIER) {
+                set(8, XMaterial.BARRIER) {
                     name = "§a发送物品给 $receiver"
+                    lore.add("§cTips: §8请及时将物品拿走 否则物品可能消失")
                 }
-                onClick('Y') { it ->
+                onClick(8) { it ->
                     it.inventory.contents.filter { it.isNotAir() }
                         .filter { it.type != Material.BARRIER }
                         .forEach { item ->
@@ -62,7 +62,7 @@ object SendItemGui {
                             guiCache[player.name]?.remove(receiver)
                         }
                     } else {
-                            guiCache[player.name]?.remove(receiver)
+                        guiCache[player.name]?.remove(receiver)
                     }
                 }
             }

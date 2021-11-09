@@ -1,6 +1,7 @@
 package me.kzheart.youlongrelation.data
 
 import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import java.util.*
 
 /**
@@ -9,7 +10,7 @@ import java.util.*
  */
 class MasterData(val master: String, val date: Date) {
     fun serializeString(): String {
-        return Gson().toJson(this)
+        return GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create().toJson(this)
     }
 }
 
@@ -29,5 +30,5 @@ fun Player.removeMaster(): Boolean {
 }*/
 
 fun String?.deserializeMaster(): MasterData? {
-    return if (this != null) Gson().fromJson<MasterData>(this) else null
+    return if (this != null) GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create().fromJson<MasterData>(this) else null
 }

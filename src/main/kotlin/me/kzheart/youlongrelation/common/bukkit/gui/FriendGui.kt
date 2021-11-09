@@ -30,12 +30,17 @@ object FriendGui {
                 player.getDataContainer()["friends"].deserializeFriends().map { it.value }
             }
             onGenerate(true) { player, element, index, slot ->
+                val onlineStats = when (Players.isPlayerOnline(element.friendName)) {
+                    true -> "§c在线"
+                    false -> "§8离线"
+                }
                 buildItem(XMaterial.PLAYER_HEAD) {
                     name = console().asLangText("friend-icon-name", element.friendName)
                     skullOwner = element.friendName
                 }.modifyLore {
                     console().asLangTextList(
                         "friend-icon-lore", SimpleDateFormat("yyyy-MM-dd HH:mm").format(element.date),
+                        onlineStats
                     ).forEach {
                         add(it)
                     }

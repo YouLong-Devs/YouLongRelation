@@ -37,6 +37,7 @@ object FriendBukkitCommand {
 
     @CommandBody(permission = "youlongrelation.use.friendbukkit.gui")
     val gui = subCommand {
+
         execute<Player> { sender, context, argument ->
             FriendGui.open(sender)
         }
@@ -167,7 +168,7 @@ object FriendBukkitCommand {
 }
 
 
-private fun sendGift(sender: Player, receiver: String, vararg itemStacks: ItemStack?) {
+/*private fun sendGift(sender: Player, receiver: String, vararg itemStacks: ItemStack?) {
     if (sender.name == receiver) {
         return sender.sendLang("receiver-is-self")
     }
@@ -215,7 +216,7 @@ private fun sendGift(sender: Player, receiver: String, vararg itemStacks: ItemSt
             }
         }
     }
-}
+}*/
 
 
 /*        literal("receive") {

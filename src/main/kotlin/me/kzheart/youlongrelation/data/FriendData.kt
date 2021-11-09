@@ -1,6 +1,7 @@
 package me.kzheart.youlongrelation.data
 
 import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import java.util.*
 
@@ -17,21 +18,21 @@ inline fun <reified T> Gson.fromJson(json: String) = this.fromJson<T>(json, obje
  * Map序列化
  */
 fun <K, V> MutableMap<K, V>.serializeString(): String {
-    return Gson().toJson(this)
+    return GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create().toJson(this)
 }
 
 /**
  * 好友列表反序列化
  */
 fun String?.deserializeFriends(): MutableMap<String, FriendData> {
-    return if (this != null) Gson().fromJson<MutableMap<String, FriendData>>(this) else mutableMapOf()
+    return if (this != null) GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create().fromJson<MutableMap<String, FriendData>>(this) else mutableMapOf()
 }
 
 /**
  * 亲密度反序列化
  */
 fun String?.deserializeIntimacy(): MutableMap<String, Int> {
-    return if (this != null) Gson().fromJson<MutableMap<String, Int>>(this) else mutableMapOf()
+    return if (this != null) GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create().fromJson<MutableMap<String, Int>>(this) else mutableMapOf()
 }
 
 

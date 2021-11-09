@@ -1,6 +1,7 @@
 package me.kzheart.youlongrelation.data
 
 import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import java.util.*
 
 /**
@@ -9,7 +10,7 @@ import java.util.*
  */
 class LoverData(val name: String, val date: Date) {
     fun serializeString(): String {
-        return Gson().toJson(this)
+        return GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create().toJson(this)
     }
 
 
@@ -36,6 +37,6 @@ fun ProxyPlayer.removeLover(): Boolean {
 }*/
 
 fun String?.deserializeLover(): LoverData? {
-    return if (this != null) Gson().fromJson<LoverData>(this) else null
+    return if (this != null) return GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create().fromJson<LoverData>(this) else null
 }
 

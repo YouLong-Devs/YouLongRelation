@@ -27,11 +27,21 @@ import taboolib.module.lang.sendLang
 object MasterCommand {
 
     val maxDiscipleCount = BungeeMasterDiscipleConfManager.maxDiscipleCount
-    private val applyList = hashMapOf<String, MutableList<String>>()
 
     @CommandBody(permission = "youlongrelation.master.use")
     val main = mainCommand {
         createHelper()
+    }
+
+    @CommandBody(permission = "youlongrelation.master.use.apprentice")
+    val check = subCommand {
+        execute<ProxyPlayer> { sender, context, argument ->
+            val masterData = YouLongRelationBungeeApi.getMaster(sender.cast<ProxiedPlayer>())
+                ?: return@execute sender.sendLang("master-not-exist")
+            val proxyPlayer = getProxyPlayer(masterData.master)
+            val onlineStats = if (proxyPlayer != null) "§c在线" else "§8离线"
+            sender.sendLang("lover-check", masterData.master, onlineStats)
+        }
     }
 
     @CommandBody(permission = "youlongrelation.master.use.apprentice")
@@ -50,13 +60,12 @@ object MasterCommand {
                 if (isLevelAllowAddMaster(sender.cast<ProxiedPlayer>(), getProxyPlayer(argument)!!.cast())) {
                     return@execute sender.sendLang("master-disciple-level-not-allow")
                 }
-                if (applyList[argument]!!.contains(sender.name))
+                if (ApplyManager.hasMasterApply(argument, sender))
                     return@execute sender.sendLang("master-already-apply-sender", argument)
 
-                if (applyList[argument]?.add(sender.name) == true) {
-                    getProxyPlayer(argument)?.sendLang("master-apply-receiver", sender.name)
-                    return@execute sender.sendLang("master-apply-success", argument)
-                } else return@execute sender.sendLang("unknown-error")
+                ApplyManager.addMasterApply(argument, sender)
+                getProxyPlayer(argument)?.sendLang("master-apply-receiver", sender.name)
+                return@execute sender.sendLang("master-apply-success", argument)
             }
         }
     }
@@ -65,11 +74,11 @@ object MasterCommand {
     val accept = subCommand {
         dynamic {
             suggestion<ProxyPlayer> { sender, context ->
-                return@suggestion applyList[sender.name]
+                return@suggestion ApplyManager.getMasterApply(sender)
             }
             execute<ProxyPlayer> { sender, context, argument ->
                 val masterData = YouLongRelationBungeeApi.getMaster(argument)
-                applyList[sender.name]?.remove(argument)
+                ApplyManager.removeMasterApply(sender, argument)
                 //已经有师傅了
                 if (masterData != null) {
                     return@execute sender.sendLang("master-already-exist", argument)
@@ -77,9 +86,9 @@ object MasterCommand {
                 //判断师傅数量弟子数量是否超
                 if (YouLongRelationBungeeApi.getDisciples(sender.cast<ProxiedPlayer>()).size >= maxDiscipleCount)
                     return@execute sender.sendLang("master-already-maxcount", sender.name)
-                if (isLevelAllowAddMaster(argument, sender.cast())) {
+/*                if (isLevelAllowAddMaster(argument, sender.cast())) {
                     return@execute sender.sendLang("master-disciple-level-not-allow")
-                }
+                }*/
                 runCatching {
                     if (YouLongRelationBungeeApi.addMaster(argument, sender.cast())) {
                         sender.sendLang("master-accept", argument)
@@ -99,10 +108,10 @@ object MasterCommand {
     val deny = subCommand {
         dynamic {
             suggestion<ProxyPlayer> { sender, context ->
-                return@suggestion applyList[sender.name]
+                return@suggestion ApplyManager.getMasterApply(sender)
             }
             execute<ProxyPlayer> { sender, context, argument ->
-                applyList[sender.name]?.remove(argument)
+                ApplyManager.removeMasterApply(sender, argument)
                 sender.sendLang("disciple-deny-apply-receiver", argument)
                 getProxyPlayer(argument)?.sendLang("master-deny-apply-receiver", sender.name)
             }
@@ -133,18 +142,6 @@ object MasterCommand {
                 return@execute sender.sendLang("unknown-error")
             }
         }
-    }
-
-
-    @SubscribeEvent
-    fun playerLogin(e: ServerConnectedEvent) {
-        applyList[e.player.name] = mutableListOf()
-    }
-
-
-    @SubscribeEvent
-    fun playerDisconnect(e: ServerDisconnectEvent) {
-        applyList.remove(e.player.name)
     }
 
     private fun isLevelAllowAddMaster(player: ProxiedPlayer, master: ProxiedPlayer): Boolean {

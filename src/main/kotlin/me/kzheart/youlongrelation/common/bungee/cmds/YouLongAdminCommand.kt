@@ -10,6 +10,7 @@ import taboolib.common.platform.command.CommandHeader
 import taboolib.common.platform.command.mainCommand
 import taboolib.common.platform.command.subCommand
 import taboolib.common.platform.function.onlinePlayers
+import taboolib.common.platform.function.submit
 import taboolib.common5.Coerce
 import taboolib.expansion.createHelper
 import taboolib.module.lang.sendLang
@@ -56,7 +57,7 @@ object YouLongAdminCommand {
                                 "intimacy-set",
                                 context.argument(-1),
                                 context.argument(-2),
-                                YouLongRelationBungeeApi.getIntimacy(context.argument(-1), context.argument(-2))
+                                argument
                             )
                         }
                     }
