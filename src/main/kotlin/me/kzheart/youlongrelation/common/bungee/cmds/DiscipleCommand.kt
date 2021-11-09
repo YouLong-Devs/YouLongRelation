@@ -30,7 +30,7 @@ object DiscipleCommand {
         createHelper()
     }
 
-    @CommandBody(permission = "youlongrelation.master.use.apprentice")
+    @CommandBody(permission = "youlongrelation.disciple.use.common")
     val check = subCommand {
         execute<ProxyPlayer> { sender, context, argument ->
             val disciples = YouLongRelationBungeeApi.getDisciples(sender.cast<ProxiedPlayer>())

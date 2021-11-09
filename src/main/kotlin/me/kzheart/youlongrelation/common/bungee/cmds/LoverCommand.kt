@@ -77,6 +77,12 @@ object LoverCommand {
         dynamic {
             suggestion<ProxyPlayer> { sender, context ->
                 return@suggestion ApplyManager.getLoverApply(sender)
+                    .filter {
+                        YouLongRelationBungeeApi.getIntimacy(
+                            sender.cast<ProxiedPlayer>(),
+                            it
+                        ) >= BungeeLoverConfManager.needIntimacy
+                    }
             }
             execute<ProxyPlayer> { sender, context, argument ->
                 ApplyManager.removeLoverApply(sender, argument)
