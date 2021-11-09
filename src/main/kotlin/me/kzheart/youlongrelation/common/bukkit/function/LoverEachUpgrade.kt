@@ -32,21 +32,14 @@ object LoverEachUpgrade {
             val loverRemainTime = YouLongRelationBukkitApi.getLoverUpgradeRemainTime(lover)
             if (StatusMap.getPlayerStatus(player) == Status.LOVER_UPGRADING && StatusMap.getPlayerStatus(lover) == Status.LOVER_UPGRADING) {
                 if (playerRemainTime > 0 && loverRemainTime > 0) {
-                    val playerCurrentExp = SkillAPI.getPlayerData(player).classes.run {
-                        var exp: Double = 0.0
-                        forEach {
-                            exp += it.exp
-                        }
-                        return@run exp
-                    }
-
-                    val loverCurrentExp = SkillAPI.getPlayerData(lover).classes.run {
-                        var exp: Double = 0.0
-                        forEach {
-                            exp += it.exp
-                        }
-                        return@run exp
-                    }
+                    val playerCurrentExp =
+                        if (SkillAPI.getPlayerAccountData(player).activeData.classes.firstOrNull() == null) 0.0 else SkillAPI.getPlayerAccountData(
+                            player
+                        ).activeData.classes.firstOrNull()!!.exp
+                    val loverCurrentExp =
+                        if (SkillAPI.getPlayerAccountData(lover).activeData.classes.firstOrNull() == null) 0.0 else SkillAPI.getPlayerAccountData(
+                            player
+                        ).activeData.classes.firstOrNull()!!.exp
 
                     val playerAddExp =
                         engine.eval(exp.replace("{current_exp}", playerCurrentExp.toString())).toString().toDouble()
@@ -62,7 +55,8 @@ object LoverEachUpgrade {
                     lover.sendLang("lover-upgrade-get-exp", loverAddExp.roundToInt(), loverRemainTime - 1)
 
                     SkillAPI.getPlayerData(player).giveExp(playerAddExp, ExpSource.SPECIAL)
-                    SkillAPI.getPlayerData(lover).giveExp(loverAddExp, ExpSource.SPECIAL)
+                    SkillAPI.getPlayerData(player).giveExp(playerAddExp, ExpSource.SPECIAL)
+
 
                     PlayerLoverUpgradeEvent(player, lover, playerAddExp, loverAddExp).call()
                     YouLongRelationBukkitApi.updateLoverUpgradeDate(player)

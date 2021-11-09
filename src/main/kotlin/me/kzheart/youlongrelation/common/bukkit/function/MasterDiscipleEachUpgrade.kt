@@ -41,13 +41,20 @@ object MasterDiscipleEachUpgrade {
                     }
                 }
                 if (masterRemainTime > 0) {
-                    val masterCurrentExp = SkillAPI.getPlayerData(player).mainClass.exp
+
+                    val masterCurrentExp =
+                        if (SkillAPI.getPlayerData(player).classes.firstOrNull() == null) 0.0 else SkillAPI.getPlayerData(
+                            player
+                        ).classes.firstOrNull()!!.exp
                     var disciplesExp = 0.0
 
                     disciples.forEach {
                         val discipleExpString = discipleexp.replace("{master_exp}", masterCurrentExp.toString())
                         val discipleAddExp = engine.eval(discipleExpString).toString().toDouble()
-                        disciplesExp += SkillAPI.getPlayerData(it).mainClass.exp
+                        disciplesExp += if (SkillAPI.getPlayerData(it).classes.firstOrNull() == null) 0.0 else SkillAPI.getPlayerData(
+                            it
+                        ).classes.firstOrNull()!!.exp
+
                         it.sendLang("disciple-upgrade-get-exp", discipleAddExp.roundToInt(), masterRemainTime - 1)
                         SkillAPI.getPlayerData(it).giveExp(discipleAddExp, ExpSource.SPECIAL)
                     }

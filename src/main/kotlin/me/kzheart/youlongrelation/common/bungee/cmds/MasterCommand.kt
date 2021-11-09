@@ -3,8 +3,6 @@ package me.kzheart.youlongrelation.common.bungee.cmds
 import me.kzheart.youlongrelation.api.YouLongRelationBungeeApi
 import me.kzheart.youlongrelation.common.bungee.conf.BungeeMasterDiscipleConfManager
 import net.md_5.bungee.api.connection.ProxiedPlayer
-import net.md_5.bungee.api.event.ServerConnectedEvent
-import net.md_5.bungee.api.event.ServerDisconnectEvent
 import taboolib.common.platform.Platform
 import taboolib.common.platform.PlatformSide
 import taboolib.common.platform.ProxyPlayer
@@ -12,7 +10,6 @@ import taboolib.common.platform.command.CommandBody
 import taboolib.common.platform.command.CommandHeader
 import taboolib.common.platform.command.mainCommand
 import taboolib.common.platform.command.subCommand
-import taboolib.common.platform.event.SubscribeEvent
 import taboolib.common.platform.function.getProxyPlayer
 import taboolib.common.platform.function.onlinePlayers
 import taboolib.expansion.createHelper
@@ -40,7 +37,7 @@ object MasterCommand {
                 ?: return@execute sender.sendLang("master-not-exist")
             val proxyPlayer = getProxyPlayer(masterData.master)
             val onlineStats = if (proxyPlayer != null) "§c在线" else "§8离线"
-            sender.sendLang("lover-check", masterData.master, onlineStats)
+            sender.sendLang("master-check", masterData.master, onlineStats)
         }
     }
 
@@ -57,9 +54,9 @@ object MasterCommand {
 
                 if (YouLongRelationBungeeApi.getDisciples(argument).size >= maxDiscipleCount)
                     return@execute sender.sendLang("master-already-maxcount", argument)
-                if (isLevelAllowAddMaster(sender.cast<ProxiedPlayer>(), getProxyPlayer(argument)!!.cast())) {
+/*                if (isLevelAllowAddMaster(sender.cast<ProxiedPlayer>(), getProxyPlayer(argument)!!.cast())) {
                     return@execute sender.sendLang("master-disciple-level-not-allow")
-                }
+                }*/
                 if (ApplyManager.hasMasterApply(argument, sender))
                     return@execute sender.sendLang("master-already-apply-sender", argument)
 

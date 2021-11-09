@@ -30,7 +30,7 @@ object FriendCommand {
         createHelper()
     }
 
-    @CommandBody(permission = "youlongrelation.friend.use")
+    @CommandBody(permission = "youlongrelation.friend.use.common")
     val intimacy = subCommand {
         dynamic {
             suggestion<ProxyPlayer> { sender, context ->
@@ -130,6 +130,5 @@ object FriendCommand {
             }
         }
     }
-
 
 }

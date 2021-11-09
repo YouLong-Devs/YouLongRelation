@@ -36,6 +36,6 @@ object BukkitListener {
 
     @SubscribeEvent
     fun onItemReceive(e: ItemReceiverEvent) {
-        e.receiver.sendLang("item-receiver", e.item.getName(), e.item.amount)
+        e.receiver.sendLang("item-receiver", e.sender, e.item.getName(), e.item.amount)
     }
 }

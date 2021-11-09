@@ -46,6 +46,10 @@ object FriendGui {
                     }
                 }
             }
+            onClick { event, element ->
+                player.closeInventory()
+                SendItemGui.open(player, element.friendName)
+            }
             setNextPage(51) { _, hasNextPage ->
                 if (hasNextPage) {
                     buildItem(XMaterial.SPECTRAL_ARROW) { name = console().asLangText("next-page") }

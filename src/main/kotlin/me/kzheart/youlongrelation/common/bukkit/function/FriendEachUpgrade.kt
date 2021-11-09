@@ -70,8 +70,16 @@ object FriendEachUpgrade {
             val friendRemainTime = YouLongRelationBukkitApi.getFriendUpgradeRemainTime(friend)
             if (StatusMap.getPlayerStatus(player) == Status.FRIEND_UPGRADING && StatusMap.getPlayerStatus(friend) == Status.FRIEND_UPGRADING) {
                 if (playerRemainTime > 0 && friendRemainTime > 0) {
-                    val playerCurrentExp = SkillAPI.getPlayerAccountData(player).activeData.mainClass.exp
-                    val friendCurrentExp = SkillAPI.getPlayerAccountData(friend).activeData.mainClass.exp
+                    val playerCurrentExp =
+                        if (SkillAPI.getPlayerAccountData(player).activeData.classes.firstOrNull() == null) 0.0 else SkillAPI.getPlayerAccountData(
+                            player
+                        ).activeData.classes.firstOrNull()!!.exp
+                    val friendCurrentExp =
+                        if (SkillAPI.getPlayerAccountData(friend).activeData.classes.firstOrNull() == null) 0.0 else SkillAPI.getPlayerAccountData(
+                            player
+                        ).activeData.classes.firstOrNull()!!.exp
+
+
                     val playerAddExp =
                         engine.eval(exp.replace("{current_exp}", playerCurrentExp.toString())).toString().toDouble()
                     val friendAddExp =

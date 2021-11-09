@@ -52,9 +52,12 @@ object FriendBukkitCommand {
                         .filter { YouLongRelationBukkitApi.getFriends(sender).containsKey(it) }
                 }
                 execute<Player> { sender, context, argument ->
-                    if (Players.isPlayerOnline(argument))
+                    if (!Players.isPlayerOnline(argument))
                         return@execute sender.sendLang("player-not-online", argument)
-                    YouLongRelationBukkitApi.sendGift(sender, argument)
+                    val item = BukkitEquipment.getItems(sender)[BukkitEquipment.HAND]
+                    if (item.isAir())
+                        return@execute sender.sendLang("fiend-gift-no-item-inhand")
+                    YouLongRelationBukkitApi.sendGift(sender, argument, item)
                     //sendGift(sender, argument, BukkitEquipment.getItems(sender)[BukkitEquipment.HAND])
                 }
             }

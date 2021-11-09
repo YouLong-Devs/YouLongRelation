@@ -19,6 +19,7 @@ friend-upgrade-get-exp: "&8&l[ &3&lYouLongRelation &8&l]  &8获得了 &a{0} &8�
 status-disturbed: "&8&l[ &3&lYouLongRelation &8&l] &8因玩家 {0} 的{1} 导致状态 {2} 结束"
 friend-no-time-upgrade: "8&l[ &3&lYouLongRelation &8&l] 玩家 {0} 今天的传功时间已经用完了"
 friend-no-each: "&8&l[ &3&lYouLongRelation &8&l] 你和玩家 {0} 不是好友"
+fiend-gift-no-item-inhand: '&8&l[ &3&lYouLongRelation &8&l] &8请将要赠送给好友的物品拿在手上'
 friend-upgrade-receiver:
   - '&r'
   - "&8&l[ &3&lYouLongRelation &8&l] 好友 &a{0} &8想要和你传功是否同意  &cTips:请站在好友的附近同意"
@@ -142,12 +143,20 @@ master-deny-apply-sender: "&8&l[ &3&lYouLongRelation &8&l] &8你拒绝了 &a{0} 
 master-not-exist: "&8&l[ &3&lYouLongRelation &8&l] &8你没有师傅"
 master-leave-confirm:
   - '&r'
-  - '&8 你确定要和{0}脱离师徒关系吗？&cTips: 若不想脱离请无视'
+  - '&8&l[ &3&lYouLongRelation &8&l] &8你确定要和 &a{0} 脱离师徒关系吗？&cTips: 若不想脱离请无视'
   - type: JSON
     text: '[&a&n确定]'
     args:
       - hover: '&7Click'
-        command: '/lover leaveConfirm'
+        command: '/master leaveConfirm'
+disciple-leave-confirm:
+  - '&r'
+  - '&8&l[ &3&lYouLongRelation &8&l] &8你确定要和 &a{0} 脱离师徒关系吗？&cTips: 若不想脱离请无视'
+  - type: JSON
+    text: '[&a&n确定]'
+    args:
+      - hover: '&7Click'
+        command: '/disciple removeConfirm {0}'
 master-leave: "&8&l[ &3&lYouLongRelation &8&l] &8你和 &a{0} &8已经脱离师徒关系了"
 master-disciple-join: "&8&l[ &3&lYouLongRelation &8&l] &8徒弟 &a{0} &8已经加入指点列表，请在徒弟附近开始"
 master-upgrade-apply:

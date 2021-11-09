@@ -117,7 +117,7 @@ object DiscipleCommand {
                 YouLongRelationBungeeApi.getDisciples(sender.cast<ProxiedPlayer>()).map { it.key }
             }
             execute<ProxyPlayer> { sender, context, argument ->
-                sender.sendLang("master-leave-confirm", argument)
+                sender.sendLang("disciple-leave-confirm", argument)
             }
         }
     }

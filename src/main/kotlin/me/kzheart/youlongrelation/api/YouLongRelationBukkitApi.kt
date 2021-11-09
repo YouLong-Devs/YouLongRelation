@@ -103,7 +103,7 @@ object YouLongRelationBukkitApi {
 
     @JvmStatic
     fun updatePlayerLevel(player: OfflinePlayer) {
-        val level = SkillAPI.getPlayerData(player).mainClass?.level ?: 0
+        val level = SkillAPI.getPlayerData(player).classes.firstOrNull()?.level ?: 0
         YouLongRelationApi.setPlayerLevel(player.name, level)
     }
 
@@ -140,18 +140,19 @@ object YouLongRelationBukkitApi {
         if (!Players.isPlayerOnline(receiver)) {
             return
         }
-        submit(async = true) {
+        submit {
             itemStacks.forEach {
                 if (it == null || it.isAir())
                     return@forEach
                 val event = ItemSendEvent(sender, receiver, it.clone())
+                val receiverItemStack = it.clone()
                 //判断是否在同一个服务器
                 if (Bukkit.getPlayer(receiver) != null) {
                     Bukkit.getPlayer(receiver).run {
                         if (event.call()) {
-                            giveItem(it.clone())
+                            giveItem(receiverItemStack)
+                            ItemReceiverEvent(sender.name, this@run, receiverItemStack.clone()).call()
                             it.amount = 0
-                            ItemReceiverEvent(sender.name, this, it.clone()).call()
                         }
                     }
                 } else {
