@@ -20,6 +20,7 @@ lover:
   #双修配置
   upgrade:
     exp: '{current_exp} * 0.2'
+    #传功时间
     time: 3600
 master:
   count: 3
@@ -28,6 +29,7 @@ master:
     masterexp: '{disciple_exp} / 20.2'
     # 徒弟获得的经验         师傅当前经验{master_exp}
     discipleexp: '{master_exp} / 20.1'
+    # 传功时间
     time: 3600
 
 

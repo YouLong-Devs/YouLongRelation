@@ -63,6 +63,16 @@ object YouLongRelationBukkitApi {
     }
 
     @JvmStatic
+    fun isMaster(player: OfflinePlayer, target: OfflinePlayer): Boolean {
+        return YouLongRelationApi.isMaster(player.name, target.name)
+    }
+
+    @JvmStatic
+    fun isDisciple(player: OfflinePlayer, target: OfflinePlayer): Boolean {
+        return YouLongRelationApi.isDisciple(player.name, target.name)
+    }
+
+    @JvmStatic
     fun updateFriendUpgradeDate(player: OfflinePlayer) {
         YouLongRelationApi.updateFriendUpgradeDate(player.name)
     }

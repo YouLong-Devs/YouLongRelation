@@ -1,6 +1,5 @@
 package me.kzheart.youlongrelation.common.bukkit.cmds
 
-import me.kzheart.youlongrelation.api.YouLongRelationApi
 import me.kzheart.youlongrelation.api.YouLongRelationBukkitApi
 import me.kzheart.youlongrelation.common.bukkit.conf.BukkitMasterDiscipleConfManager
 import me.kzheart.youlongrelation.common.bukkit.function.MasterDiscipleEachUpgrade
@@ -37,7 +36,7 @@ object MasterBukkitCommand {
             dynamic {
                 suggestion<Player> { sender, context ->
                     sender.getNearbyEntities(10.0, 10.0, 10.0).asSequence().filterIsInstance<Player>().map { it }
-                        .filter { YouLongRelationBukkitApi.isMentoring(sender, it) }.map { it.name }.toList()
+                        .filter { YouLongRelationBukkitApi.isDisciple(sender, it) }.map { it.name }.toList()
                 }
                 execute<Player> { sender, _, argument ->
                     val disciple =
@@ -64,7 +63,7 @@ object MasterBukkitCommand {
             dynamic {
                 suggestion<Player> { sender, context ->
                     sender.getNearbyEntities(10.0, 10.0, 10.0).asSequence().filterIsInstance<Player>().map { it }
-                        .filter { YouLongRelationBukkitApi.isMentoring(sender, it) }
+                        .filter { YouLongRelationBukkitApi.isDisciple(sender, it) }
                         .filter { ApplyListManager.isDiscipleApply(sender, it) }.map { it.name }.toList()
                 }
                 execute<Player> { sender, _, argument ->
@@ -114,16 +113,16 @@ object MasterBukkitCommand {
                 val disciples =
                     sender.getNearbyEntities(10.0, 10.0, 10.0).asSequence().filterIsInstance<Player>().map { it }
                         .filter {
-                            YouLongRelationBukkitApi.isMentoring(sender, it)
+                            YouLongRelationBukkitApi.isDisciple(sender, it)
                         }.filter { readyList.contains(it.name) }.toList()
-                ApplyListManager.clearMasterUpgradeApplyList(sender)
+                ApplyListManager.clearMasterUpgradeReadyList(sender)
                 MasterDiscipleEachUpgrade.start(sender, disciples)
             }
         }
 
         literal("clear") {
             execute<Player> { sender, context, argument ->
-                ApplyListManager.clearMasterUpgradeApplyList(sender)
+                ApplyListManager.clearMasterUpgradeReadyList(sender)
                 sender.sendLang("master-ready-clear")
             }
         }

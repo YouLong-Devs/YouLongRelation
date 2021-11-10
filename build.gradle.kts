@@ -23,6 +23,7 @@ taboolib {
     install("expansion-command-helper")
     install("module-ui")
     version = "6.0.3-21"
+    classifier = null
 }
 
 repositories {
@@ -41,8 +42,7 @@ dependencies {
 //    compileOnly("ink.ptms.core:v11701:11701:universal")
     compileOnly(kotlin("stdlib"))
     compileOnly(fileTree("libs"))
-    compileOnly("de.HyChrod:FriendsAPI:1.1.0.9.1")
-    compileOnly("net.md-5:bungeecord-bootstrap:1.17-R0.1-SNAPSHOT")
+    compileOnly("net.md-5:bungeecord-bootstrap:1.12-SNAPSHOT")
 
 }
 

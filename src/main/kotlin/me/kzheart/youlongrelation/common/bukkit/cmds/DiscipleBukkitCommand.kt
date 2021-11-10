@@ -33,7 +33,7 @@ object DiscipleBukkitCommand {
             dynamic {
                 suggestion<Player> { sender, context ->
                     sender.getNearbyEntities(10.0, 10.0, 10.0).asSequence().filterIsInstance<Player>().map { it }
-                        .filter { YouLongRelationBukkitApi.isMentoring(sender, it) }.map { it.name }.toList()
+                        .filter { YouLongRelationBukkitApi.isMaster(sender, it) }.map { it.name }.toList()
                 }
                 execute<Player> { sender, _, argument ->
                     val master =
@@ -55,7 +55,7 @@ object DiscipleBukkitCommand {
             dynamic {
                 suggestion<Player> { sender, context ->
                     sender.getNearbyEntities(10.0, 10.0, 10.0).asSequence().filterIsInstance<Player>().map { it }
-                        .filter { YouLongRelationBukkitApi.isMentoring(sender, it) }
+                        .filter { YouLongRelationBukkitApi.isMaster(sender, it) }
                         .filter { ApplyListManager.isMasterApply(sender, it) }.map { it.name }.toList()
                 }
                 execute<Player> { sender, _, argument ->

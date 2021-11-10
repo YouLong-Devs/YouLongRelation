@@ -289,6 +289,14 @@ object YouLongRelationApi {
         return playerName.getDataContainerByName()["level"]?.toInt() ?: return 0
     }
 
+    fun isMaster(playerName: String, targetName: String): Boolean {
+        return getMaster(playerName)?.master == targetName
+    }
+
+    fun isDisciple(playerName: String, targetName: String): Boolean {
+        return getDisciples(playerName).containsKey(targetName)
+    }
+
     inline fun <reified T> Gson.fromJson(json: String) = this.fromJson<T>(json, object : TypeToken<T>() {}.type)
 
 

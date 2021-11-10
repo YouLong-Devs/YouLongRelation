@@ -7,8 +7,8 @@ database:
   table: you_long_relation
 
 lover:
-  #homosexual: false
   #需求亲密度
   intimacy: 80
 disciple:
+  #可收徒的最大数量
   max-count: 3
