@@ -17,7 +17,7 @@ class TypeSQL(val host: Host<SQL>, table: String) : Type() {
             }
         }
         add("value") {
-            type(ColumnTypeSQL.TEXT)
+            type(ColumnTypeSQL.VARCHAR,15000)
         }
     }
 
