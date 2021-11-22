@@ -11,9 +11,5 @@ import taboolib.platform.type.BukkitProxyEvent
 class PlayerFriendUpgradeEvent(
     val player: Player,
     val friend: Player,
-    val playerAddExp: Double,
-    val friendAddExp: Double
 ) :
-    BukkitProxyEvent() {
-
-}
+    BukkitProxyEvent()

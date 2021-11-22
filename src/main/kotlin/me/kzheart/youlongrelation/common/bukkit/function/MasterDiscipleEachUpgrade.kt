@@ -41,8 +41,7 @@ object MasterDiscipleEachUpgrade {
                     }
                 }
                 if (masterRemainTime > 0) {
-
-                    val masterCurrentExp =
+/*                    val masterCurrentExp =
                         if (SkillAPI.getPlayerData(player).classes.firstOrNull() == null) 0.0 else SkillAPI.getPlayerData(
                             player
                         ).classes.firstOrNull()!!.exp
@@ -63,14 +62,16 @@ object MasterDiscipleEachUpgrade {
                     val masterAddExp = engine.eval(masterExpString).toString().toDouble()
 
                     player.sendLang("disciple-upgrade-get-exp", masterAddExp.roundToInt(), masterRemainTime - 1)
-                    SkillAPI.getPlayerData(player).giveExp(masterAddExp, ExpSource.SPECIAL)
+                    SkillAPI.getPlayerData(player).giveExp(masterAddExp, ExpSource.SPECIAL)*/
+
+
+                    if (!PlayerMasterUpgradeEvent(player, disciples).call())
+                        return@submit cancel()
 
                     YouLongRelationBukkitApi.setMasterUpgradeRemainTime(player, masterRemainTime - 1)
-                    PlayerMasterUpgradeEvent(player, disciples).call()
-
                     YouLongRelationBukkitApi.updateMasterUpgradeDate(player)
                 } else {
-                    disciples.forEach {
+                    disciples.forEach { _ ->
                         PlayerDisturbedEvent(
                             player.name,
                             disciples.map { it.name },

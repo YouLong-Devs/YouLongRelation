@@ -28,16 +28,16 @@ object FriendEachUpgrade {
 
     @SubscribeEvent
     fun onFriendTick(e: PlayerFriendUpgradeEvent) {
-        e.player.sendLang(
-            "friend-upgrade-get-exp",
-            e.playerAddExp.roundToInt(),
-            YouLongRelationBukkitApi.getFriendUpgradeRemainTime(e.player)
-        )
-        e.friend.sendLang(
-            "friend-upgrade-get-exp",
-            e.friendAddExp.roundToInt(),
-            YouLongRelationBukkitApi.getFriendUpgradeRemainTime(e.friend)
-        )
+//        e.player.sendLang(
+//            "friend-upgrade-get-exp",
+//            e.playerAddExp.roundToInt(),
+//            YouLongRelationBukkitApi.getFriendUpgradeRemainTime(e.player)
+//        )
+//        e.friend.sendLang(
+//            "friend-upgrade-get-exp",
+//            e.friendAddExp.roundToInt(),
+//            YouLongRelationBukkitApi.getFriendUpgradeRemainTime(e.friend)
+//        )
 /*        //skillapi给的傻逼方法不好使啊 我还是直接用命令吧。。。。
         console().performCommand("class exp ${e.player.name} ${e.playerAddExp}")
         console().performCommand("class exp ${e.friend.name} ${e.friendAddExp}")*/
@@ -70,7 +70,7 @@ object FriendEachUpgrade {
             val friendRemainTime = YouLongRelationBukkitApi.getFriendUpgradeRemainTime(friend)
             if (StatusMap.getPlayerStatus(player) == Status.FRIEND_UPGRADING && StatusMap.getPlayerStatus(friend) == Status.FRIEND_UPGRADING) {
                 if (playerRemainTime > 0 && friendRemainTime > 0) {
-                    val playerCurrentExp =
+/*                    val playerCurrentExp =
                         if (SkillAPI.getPlayerAccountData(player).activeData.classes.firstOrNull() == null) 0.0 else SkillAPI.getPlayerAccountData(
                             player
                         ).activeData.classes.firstOrNull()!!.exp
@@ -83,13 +83,17 @@ object FriendEachUpgrade {
                     val playerAddExp =
                         engine.eval(exp.replace("{current_exp}", playerCurrentExp.toString())).toString().toDouble()
                     val friendAddExp =
-                        engine.eval(exp.replace("{current_exp}", friendCurrentExp.toString())).toString().toDouble()
+                        engine.eval(exp.replace("{current_exp}", friendCurrentExp.toString())).toString().toDouble()*/
+
+
+
+
+                    if (!PlayerFriendUpgradeEvent(player, friend).call())
+                        return@submit cancel()
 
                     YouLongRelationBukkitApi.setFriendUpgradeRemainTime(player, playerRemainTime - 1)
                     YouLongRelationBukkitApi.setFriendUpgradeRemainTime(friend, friendRemainTime - 1)
 
-
-                    PlayerFriendUpgradeEvent(player, friend, playerAddExp, friendAddExp).call()
                     YouLongRelationBukkitApi.updateFriendUpgradeDate(player)
                     YouLongRelationBukkitApi.updateFriendUpgradeDate(friend)
                 } else {
@@ -112,9 +116,8 @@ object FriendEachUpgrade {
                     }
                     cancel()
                 }
-            } else {
-                cancel()
-            }
+            } else cancel()
+
         }
     }
 

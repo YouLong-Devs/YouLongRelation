@@ -10,8 +10,6 @@ import taboolib.platform.type.BukkitProxyEvent
 class PlayerLoverUpgradeEvent(
     val player: Player,
     val lover: Player,
-    val playerAddExp: Double,
-    val loverAddExp: Double
 ) : BukkitProxyEvent() {
 
 }
