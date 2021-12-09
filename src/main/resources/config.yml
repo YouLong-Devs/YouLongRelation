@@ -8,27 +8,39 @@ database:
 friend:
   #传功配置
   upgrade:
-    #当前职业经验{current_exp} 传功每秒钟获得经验
-    exp: '{current_exp} * 0.2'
+    #命令全是以控制台方式执行
+    commands:
+      - 'tell XiaoFanQwQ friend命令执行1'
+      - 'tell XiaoFanQwQ friend命令执行2'
     #允许等级差
     level: 2
     #传功时间 单位秒
     time: 300
 
 
+
 lover:
   #双修配置
   upgrade:
-    exp: '{current_exp} * 0.2'
     #传功时间
     time: 3600
+    commands:
+      - 'tell XiaoFanQwQ lover命令执行1'
+      - 'tell XiaoFanQwQ lover命令执行2'
+
+
+
+
 master:
   count: 3
   upgrade:
-    # 师傅获得的经验        徒弟当前经验{disciple_exp}
-    masterexp: '{disciple_exp} / 20.2'
-    # 徒弟获得的经验         师傅当前经验{master_exp}
-    discipleexp: '{master_exp} / 20.1'
+    commands:
+      master:
+        - 'tell XiaoFanQwQ master命令执行1'
+        - 'tell XiaoFanQwQ master命令执行2'‘
+      disciple:
+        - 'tell XiaoFanQwQ disciple命令执行1'
+        - 'tell XiaoFanQwQ disciple命令执行2'‘
     # 传功时间
     time: 3600
 

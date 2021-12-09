@@ -1,6 +1,5 @@
 package me.kzheart.youlongrelation
 
-import me.kzheart.youlongrelation.api.YouLongRelationBukkitApi
 import me.kzheart.youlongrelation.common.bungee.Bungee
 import me.kzheart.youlongrelation.data.deserializeFriends
 import me.kzheart.youlongrelation.database.getDataContainerByName
@@ -23,8 +22,7 @@ import taboolib.common.platform.event.SubscribeEvent
 import taboolib.common.platform.function.info
 import taboolib.common.platform.function.submit
 import taboolib.module.configuration.Config
-import taboolib.module.configuration.ConfigNode
-import taboolib.module.configuration.SecuredFile
+import taboolib.module.configuration.Configuration
 import taboolib.platform.BukkitPlugin
 import kotlin.properties.Delegates
 
@@ -35,7 +33,7 @@ import kotlin.properties.Delegates
 @PlatformSide([Platform.BUKKIT])
 object YouLongRelation : Plugin() {
     @Config("config.yml")
-    lateinit var config: SecuredFile
+    lateinit var config: Configuration
 
 
     val plugin by lazy { BukkitPlugin.getInstance() }
@@ -67,7 +65,7 @@ object YouLongRelation : Plugin() {
 
     @Awake(LifeCycle.ENABLE)
     private fun loadDatabase() {
-        setupPlayerDatabase(config.getConfigurationSection("database"))
+        setupPlayerDatabase(config.getConfigurationSection("database")!!)
     }
 
 

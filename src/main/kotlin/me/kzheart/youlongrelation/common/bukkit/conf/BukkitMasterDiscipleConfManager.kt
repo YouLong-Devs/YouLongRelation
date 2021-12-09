@@ -9,6 +9,11 @@ import me.kzheart.youlongrelation.YouLongRelation
 object BukkitMasterDiscipleConfManager {
     val time by lazy { YouLongRelation.config.getInt("master.upgrade.time", 3600) }
     val count by lazy { YouLongRelation.config.getInt("master.count", 3) }
-    val masterexp by lazy { YouLongRelation.config.getString("master.upgrade.masterexp") }
-    val discipleexp by lazy { YouLongRelation.config.getString("master.upgrade.discipleexp") }
+
+    //    val masterexp by lazy { YouLongRelation.config.getString("master.upgrade.masterexp") }
+//    val discipleexp by lazy { YouLongRelation.config.getString("master.upgrade.discipleexp") }
+    val masterCommands by lazy { YouLongRelation.config.getStringList("master.upgrade.commands.master") ?: listOf() }
+    val discipleCommands by lazy {
+        YouLongRelation.config.getStringList("master.upgrade.commands.disciple") ?: listOf()
+    }
 }

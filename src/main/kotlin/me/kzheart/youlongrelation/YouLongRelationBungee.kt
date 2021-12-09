@@ -32,7 +32,7 @@ object YouLongRelationBungee : Plugin() {
 
     @Awake(LifeCycle.ENABLE)
     private fun loadDatabase() {
-        setupPlayerDatabase(config.getConfigurationSection("database"))
+        setupPlayerDatabase(config.getConfigurationSection("database")!!)
     }
 
     @SubscribeEvent

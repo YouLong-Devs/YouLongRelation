@@ -4,9 +4,13 @@ import com.sucy.skill.SkillAPI
 import com.sucy.skill.api.enums.ExpSource
 import me.kzheart.youlongrelation.api.YouLongRelationBukkitApi
 import me.kzheart.youlongrelation.api.event.bukkit.*
+import me.kzheart.youlongrelation.common.bukkit.conf.BukkitFriendConfManager
 import me.kzheart.youlongrelation.common.bukkit.conf.BukkitLoverConfManager
 import org.bukkit.entity.Player
+import taboolib.common.platform.event.SubscribeEvent
+import taboolib.common.platform.function.console
 import taboolib.common.platform.function.submit
+import taboolib.platform.compat.replacePlaceholder
 import taboolib.platform.util.sendLang
 import javax.script.ScriptEngineManager
 import kotlin.math.roundToInt
@@ -16,9 +20,19 @@ import kotlin.math.roundToInt
  * @date 2021/11/6 22:08
  */
 object LoverEachUpgrade {
-    private val engine = ScriptEngineManager().getEngineByName("javascript")
-    private val time = BukkitLoverConfManager.time
-    private val exp = BukkitLoverConfManager.exp
+    /*    private val engine = ScriptEngineManager().getEngineByName("javascript")
+        private val time = BukkitLoverConfManager.time
+        private val exp = BukkitLoverConfManager.exp*/
+    @SubscribeEvent(ignoreCancelled = true)
+    fun onLoverTick(e: PlayerLoverUpgradeEvent) {
+        BukkitLoverConfManager.commands.forEach {
+            console().run {
+                performCommand(it.replacePlaceholder(e.player))
+                performCommand(it.replacePlaceholder(e.lover))
+            }
+        }
+    }
+
     fun start(player: Player, lover: Player) {
         if (StatusMap.playerIsInStatus(player) || StatusMap.playerIsInStatus(lover)) {
             return

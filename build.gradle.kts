@@ -22,14 +22,13 @@ taboolib {
     install("platform-bukkit", "platform-bungee")
     install("expansion-command-helper")
     install("module-ui")
-    version = "6.0.3-21"
+    version = "6.0.6-3"
     classifier = null
 }
 
 repositories {
     mavenLocal()
     mavenCentral()
-    maven("https://raw.githubusercontent.com/HyChrod/FriendsAPI/repository")
     maven("https://repo.codemc.io/repository/maven-public/")
 }
 

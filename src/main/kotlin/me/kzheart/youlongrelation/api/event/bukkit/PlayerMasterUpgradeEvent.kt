@@ -8,4 +8,5 @@ import taboolib.platform.type.BukkitProxyEvent
  * @date 2021/11/7 16:35
  */
 class PlayerMasterUpgradeEvent(val master: Player, val disciples: List<Player>) : BukkitProxyEvent() {
+
 }

@@ -4,9 +4,13 @@ import com.sucy.skill.SkillAPI
 import com.sucy.skill.api.enums.ExpSource
 import me.kzheart.youlongrelation.api.YouLongRelationBukkitApi
 import me.kzheart.youlongrelation.api.event.bukkit.*
+import me.kzheart.youlongrelation.common.bukkit.conf.BukkitFriendConfManager
 import me.kzheart.youlongrelation.common.bukkit.conf.BukkitMasterDiscipleConfManager
 import org.bukkit.entity.Player
+import taboolib.common.platform.event.SubscribeEvent
+import taboolib.common.platform.function.console
 import taboolib.common.platform.function.submit
+import taboolib.platform.compat.replacePlaceholder
 import taboolib.platform.util.sendLang
 import javax.script.ScriptEngineManager
 import kotlin.math.roundToInt
@@ -16,16 +20,33 @@ import kotlin.math.roundToInt
  * @date 2021/11/7 14:49
  */
 object MasterDiscipleEachUpgrade {
-    private val engine = ScriptEngineManager().getEngineByName("javascript")
-    private val time = BukkitMasterDiscipleConfManager.time
-    private val discipleexp = BukkitMasterDiscipleConfManager.discipleexp
-    private val masterexp = BukkitMasterDiscipleConfManager.masterexp
+    @SubscribeEvent
+    fun masterDiscipleOnTick(e: PlayerMasterUpgradeEvent) {
+        BukkitMasterDiscipleConfManager.masterCommands.forEach {
+            console().run {
+                performCommand(it.replacePlaceholder(e.master))
+            }
+        }
+        BukkitMasterDiscipleConfManager.discipleCommands.forEach { command ->
+            console().run {
+                e.disciples.forEach {
+                    performCommand(command.replacePlaceholder(it))
+                }
+            }
+        }
+    }
+
+    /*    private val engine = ScriptEngineManager().getEngineByName("javascript")
+        private val time = BukkitMasterDiscipleConfManager.time
+        private val discipleexp = BukkitMasterDiscipleConfManager.discipleexp
+        private val masterexp = BukkitMasterDiscipleConfManager.masterexp*/
     fun start(player: Player, disciples: List<Player>) {
         if (StatusMap.playerIsInStatus(player)) {
             return
         }
         disciples.forEach {
             if (StatusMap.playerIsInStatus(it)) return
+
         }
 
         StatusMap.setPlayerMasterUpgrading(player, disciples)

@@ -13,6 +13,8 @@ import org.bukkit.entity.Player
 import taboolib.common.platform.event.SubscribeEvent
 import taboolib.common.platform.function.console
 import taboolib.common.platform.function.submit
+import taboolib.platform.compat.PlaceholderExpansion
+import taboolib.platform.compat.replacePlaceholder
 import taboolib.platform.util.sendLang
 import javax.script.ScriptEngineManager
 import kotlin.math.roundToInt
@@ -22,12 +24,18 @@ import kotlin.math.roundToInt
  * @date 2021/11/6 1:36
  */
 object FriendEachUpgrade {
-    private val engine = ScriptEngineManager().getEngineByName("javascript")
+/*    private val engine = ScriptEngineManager().getEngineByName("javascript")
     private val time = BukkitFriendConfManager.time
-    private val exp = BukkitFriendConfManager.exp
+    private val exp = BukkitFriendConfManager.exp*/
 
-    @SubscribeEvent
+    @SubscribeEvent(ignoreCancelled = true)
     fun onFriendTick(e: PlayerFriendUpgradeEvent) {
+        BukkitFriendConfManager.commands.forEach {
+            console().run {
+                performCommand(it.replacePlaceholder(e.player))
+                performCommand(it.replacePlaceholder(e.friend))
+            }
+        }
 //        e.player.sendLang(
 //            "friend-upgrade-get-exp",
 //            e.playerAddExp.roundToInt(),

@@ -7,7 +7,8 @@ import me.kzheart.youlongrelation.YouLongRelation
  * @date 2021/11/6 22:52
  */
 object BukkitFriendConfManager {
-    val exp by lazy { YouLongRelation.config.getString("friend.upgrade.exp", "{current_exp} * 0.2") }
-    val level by lazy { YouLongRelation.config.getInt("friend.upgrade.level", 2) }
+//    val exp by lazy { YouLongRelation.config.getString("friend.upgrade.exp", "{current_exp} * 0.2") }
+//    val level by lazy { YouLongRelation.config.getInt("friend.upgrade.level", 2) }
     val time by lazy { YouLongRelation.config.getInt("friend.upgrade.time", 300) }
+    val commands by lazy { YouLongRelation.config.getStringList("friend.upgrade.commands") ?: listOf() }
 }
